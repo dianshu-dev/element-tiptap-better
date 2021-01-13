@@ -2,6 +2,7 @@ export { Text } from 'tiptap';
 
 export {
   Code,
+  CodeBlockHighlight,
   HardBreak,
   TrailingNode,
   TableHeader,
@@ -24,6 +25,7 @@ export { default as TodoItem } from './todo_item';
 export { default as TodoList } from './todo_list';
 export { default as Table } from './table';
 export { default as Iframe } from './iframe';
+export { default as DragItem } from './drag_item';
 
 // marks
 export { default as Bold } from './bold';
@@ -46,5 +48,7 @@ export { default as FormatClear } from './format_clear';
 export { default as Fullscreen } from './fullscreen';
 export { default as Print } from './print';
 export { default as Preview } from './preview';
+export { default as Search } from './search';
 export { default as SelectAll } from './select_all';
 export { default as CodeView } from './code_view';
+export { default as MenuSplit } from './menu_split';

@@ -7,10 +7,10 @@ declare module 'tiptap-commands' {
   }
 
   interface CommandFunction {
-    (state: EditorState, dispatch: DispatchFunction | undefined, view: EditorView): boolean;
+    (state: EditorState, dispatch: DispatchFunction | undefined, view: EditorView): any;
   }
 
   interface Command {
-    (...params: any[]): CommandFunction;
+    (...params: any[]): any;
   }
 }

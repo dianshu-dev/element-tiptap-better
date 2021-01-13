@@ -1,7 +1,7 @@
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { EditorState } from 'prosemirror-state';
 
-function findHeading (state: EditorState) {
+export function findHeading (state: EditorState) {
   const { heading } = state.schema.nodes;
   return findParentNodeOfType(heading)(state.selection);
 }

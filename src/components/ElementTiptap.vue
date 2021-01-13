@@ -42,15 +42,24 @@
     </div>
 
     <!-- use v-show to keep history -->
-    <editor-content
+    <div
+      ref="editorContentWrap"
       v-show="!isCodeViewMode"
-      :editor="editor"
       :class="[{
-        'el-tiptap-editor__content': true,
-        'border-top-radius': !showMenubar,
-        'border-bottom-radius': !showFooter,
-      }, editorContentClass]"
-    />
+      'el-tiptap-editor__zoom-wrap': true,
+      'border-top-radius': !showMenubar,
+      'border-bottom-radius': !showFooter,
+      }, editorContentClass]">
+
+      <div class="el-tiptap-editor__zoom" :style="{width: zoomWidth, height: zoomHeight, left: zoomLeft}">
+        <editor-content
+          ref="editorContent"
+          class="el-tiptap-editor__content"
+          :style="{transform: `scale(${zoom/100})`}"
+          :editor="editor"
+        />
+      </div>
+    </div>
 
     <slot
       name="footer"
@@ -63,22 +72,34 @@
           'border-bottom-radius': showFooter,
         }, editorFooterClass]"
       >
-        <span class="el-tiptap-editor__characters">
-          {{ t('editor.characters') }}: {{ characters }}
-        </span>
+        <div class="el-tiptap-editor__characters">
+          <span v-if="selectWords.word">{{ selectWords.word }}/</span>
+          <span v-if="totalWords">{{ totalWords.word }} {{ t('editor.words') }}</span>
+        </div>
+
+        <div class="el-tiptap-editor__zoom-tool">
+          <button @click="editorContentZoom('minus')">
+            <i class="el-icon-minus"></i>
+          </button>
+          <div class="zoom-value" @click="editorContentZoom('reset')">{{zoom}}%</div>
+          <button @click="editorContentZoom('plus')">
+            <i class="el-icon-plus"></i>
+          </button>
+        </div>
       </div>
     </slot>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Provide, Model, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Watch, Provide, Model, Mixins, Ref } from 'vue-property-decorator';
 import { Editor, EditorContent, Extension, EditorUpdateEvent } from 'tiptap';
 import { Placeholder } from 'tiptap-extensions';
 import { Node as ProsemirrorNode } from 'prosemirror-model';
 import ContentAttributes from '@/extensions/content_attributes';
 import Title from '@/extensions/title';
 import { capitalize } from '@/utils/shared';
+import wordsCount from '@/utils/words_count';
 import { EVENTS } from '@/constants';
 import EditorStylesMixin from '@/mixins/EditorStylesMixin';
 import CodeViewMixin from '@/mixins/CodeViewMixin';
@@ -203,18 +224,49 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
   })
   readonly menuBubbleOptions!: Object;
 
+  @Ref('editorContentWrap') readonly wrapDom!: any;
+  @Ref('editorContent') readonly contentDom!: any;
+
   editor: Editor | null = null;
   emitAfterOnUpdate: boolean = false;
   isFullscreen: boolean = false;
+  zoom: number = 100;
+  zoomWidth: string = '794px';
+  zoomHeight: string = '1123px';
+  zoomLeft: string = 'unset';
 
   @Provide() get et (): ElTiptap {
     return this;
   };
 
-  get characters (): number {
-    if (!this.editor) return 0;
+  get selectWords (): any {
+    const result = { word: 0, paragraph: 0, character: 0, all: 0 };
+    if (!this.editor) return result;
+    const selection = this.editor.state.selection;
+    if (!selection || !selection.content) return result;
+    const content: any = selection.content().content;
+    this.getWordsCount(content, result);
+    return result;
+  }
 
-    return this.editor.state.doc.textContent.length;
+  get totalWords (): any {
+    const result = { word: 0, paragraph: 0, character: 0, all: 0 };
+    if (!this.editor) return result;
+    const content: any = this.editor.state.doc.content;
+    this.getWordsCount(content, result);
+    return result;
+  }
+
+  getWordsCount (content: any, result: any) {
+    if (content.content && content.content.length) {
+      content.content.forEach((item: any) => {
+        const { word, paragraph, character, all } = wordsCount(item.textContent);
+        result.word += word;
+        result.paragraph += paragraph;
+        result.character += character;
+        result.all += all;
+      });
+    }
   }
 
   get showFooter (): boolean {
@@ -280,6 +332,30 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
 
   private beforeDestroy () {
     if (this.editor) this.editor.destroy();
+  }
+
+  private editorContentZoom (type: string) {
+    let zoom = 0;
+    if (type === 'plus') {
+      zoom = this.zoom + 10;
+      if (zoom > 200) return;
+    } else if (type === 'minus') {
+      zoom = this.zoom - 10;
+      if (zoom < 50) return;
+    } else {
+      zoom = 100;
+    }
+    if (!this.wrapDom || !this.contentDom) return;
+    const dom = this.contentDom.$el;
+    const width = 794 * (zoom / 100);
+    const height = dom.offsetHeight * (zoom / 100);
+    const left = (this.wrapDom.offsetWidth - 14 - width) / 2;
+    this.zoomLeft = left > 20 ? left - 20 + 'px' : '0';
+    this.zoomWidth = width + 'px';
+    this.zoomHeight = height + 'px';
+    this.$nextTick(() => {
+      this.zoom = zoom;
+    });
   }
 
   private generateExtensions (): Array<Extension> {

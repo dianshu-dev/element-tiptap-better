@@ -3,6 +3,7 @@
     <el-tiptap
       :extensions="extensions"
       :content="content"
+      placeholder="Content"
     />
   </div>
 </template>
@@ -10,6 +11,7 @@
 <script>
 import {
   Doc,
+  Title,
   Text,
   Paragraph,
   Heading,
@@ -31,6 +33,7 @@ export default {
     return {
       extensions: [
         new Doc({ title: true }),
+        new Title({ placeholder: 'Title' }),
         new Text(),
         new Paragraph(),
         new Heading({ level: 3 }),

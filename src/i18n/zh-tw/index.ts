@@ -119,6 +119,7 @@ export default {
         tooltip: '任務列表',
       },
       TextAlign: {
+        tooltip: '對齊方式',
         buttons: {
           align_left: {
             tooltip: '置左',
@@ -136,6 +137,7 @@ export default {
       },
       FontType: {
         tooltip: '字體',
+        default: '默認字體',
       },
       FontSize: {
         tooltip: '字體大小',
@@ -202,13 +204,20 @@ export default {
           title: '預覽',
         },
       },
+      Search: {
+        tooltip: '搜索',
+      },
       SelectAll: {
         tooltip: '全選',
       },
       CodeView: {
         tooltip: '查看原始碼',
       },
+      DragItem: {
+        tooltip: '拖动列表',
+      },
     },
-    characters: '字數',
+    characters: '字符',
+    words: '个字',
   },
 };

@@ -11,12 +11,12 @@ export default class LineHeight extends Extension implements MenuBtnView {
   get defaultOptions () {
     return {
       lineHeights: [
-        '100%',
-        '115%',
-        '150%',
-        '200%',
-        '250%',
-        '300%',
+        '1',
+        '1.15',
+        '1.5',
+        '2',
+        '2.5',
+        '3',
       ]
     };
   }

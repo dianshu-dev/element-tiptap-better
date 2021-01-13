@@ -45,10 +45,10 @@ export function transformLineHeightToCSS (value: string | number): string {
 
   if (NUMBER_VALUE_PATTERN.test(strValue)) {
     const numValue = parseFloat(strValue);
-    strValue = String(Math.round(numValue * 100)) + '%';
+    strValue = (numValue * LINE_HEIGHT_100).toFixed(1);
   }
 
-  return parseFloat(strValue) * LINE_HEIGHT_100 + '%';
+  return strValue;
 }
 
 export function transformCSStoLineHeight (value: string): string {
@@ -59,11 +59,11 @@ export function transformCSStoLineHeight (value: string): string {
 
   if (NUMBER_VALUE_PATTERN.test(value)) {
     const numValue = parseFloat(value);
-    strValue = String(Math.round(numValue * 100)) + '%';
+    strValue = (numValue * LINE_HEIGHT_100).toFixed(1);
     if (strValue === DEFAULT_LINE_HEIGHT) return '';
   }
 
-  return parseFloat(strValue) / LINE_HEIGHT_100 + '%';
+  return strValue;
 }
 
 interface SetLineHeightTask {

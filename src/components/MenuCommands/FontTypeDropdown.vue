@@ -4,12 +4,13 @@
     trigger="click"
     @command="toggleFontType"
   >
-    <command-button
-      :enable-tooltip="et.tooltip"
-      :tooltip="et.t('editor.extensions.FontType.tooltip')"
-      :readonly="et.isCodeViewMode"
-      icon="font"
-    />
+
+    <el-tooltip effect="dark" :content="et.t('editor.extensions.FontType.tooltip')" placement="top">
+      <div class="font_type_menu_btn">
+        <span class="font_type_name" :title="activeFontType">{{activeFontType}}</span>
+        <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #999"></i>
+      </div>
+    </el-tooltip>
 
     <el-dropdown-menu
       slot="dropdown"
@@ -36,18 +37,17 @@
 <script lang="ts">
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
 import { MenuData } from 'tiptap';
-import { Dropdown, DropdownMenu, DropdownItem } from 'element-ui';
+import { Dropdown, DropdownMenu, DropdownItem, Tooltip } from 'element-ui';
 import { DEFAULT_FONT_TYPE_MAP, findActiveFontType } from '@/utils/font_type';
 import { isPlainObject } from '@/utils/shared';
 import Logger from '@/utils/logger';
-import CommandButton from './CommandButton.vue';
 
 @Component({
   components: {
     [Dropdown.name]: Dropdown,
     [DropdownMenu.name]: DropdownMenu,
     [DropdownItem.name]: DropdownItem,
-    CommandButton,
+    [Tooltip.name]: Tooltip,
   },
 })
 export default class FontTypeDropdown extends Vue {
@@ -75,7 +75,7 @@ export default class FontTypeDropdown extends Vue {
   }
 
   private get activeFontType (): string {
-    return findActiveFontType(this.editor.state);
+    return findActiveFontType(this.editor.state) || this.et.t('editor.extensions.FontType.default');
   }
 
   private toggleFontType (name: string) {
@@ -87,3 +87,28 @@ export default class FontTypeDropdown extends Vue {
   }
 };
 </script>
+
+<style scoped>
+  .font_type_menu_btn {
+    width: 82px;
+    height: 29px;
+    margin: 1px;
+    padding: 0 4px 0 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+  }
+  .font_type_menu_btn:hover {
+    background: #e4e9f2;
+  }
+  .font_type_name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+</style>

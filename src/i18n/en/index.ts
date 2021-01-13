@@ -119,6 +119,7 @@ export default {
         tooltip: 'Todo list',
       },
       TextAlign: {
+        tooltip: 'Align type',
         buttons: {
           align_left: {
             tooltip: 'Align left',
@@ -136,10 +137,11 @@ export default {
       },
       FontType: {
         tooltip: 'Font family',
+        default: 'Default',
       },
       FontSize: {
         tooltip: 'Font size',
-        default: 'default',
+        default: 'Default',
       },
       TextColor: {
         tooltip: 'Text color',
@@ -202,13 +204,20 @@ export default {
           title: 'Preview',
         },
       },
+      Search: {
+        tooltip: 'Search',
+      },
       SelectAll: {
         tooltip: 'Select all',
       },
       CodeView: {
         tooltip: 'Code view',
       },
+      DragItem: {
+        tooltip: 'Drag item',
+      },
     },
     characters: 'Characters',
+    words: 'words',
   },
 };

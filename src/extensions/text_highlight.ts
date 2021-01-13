@@ -66,17 +66,21 @@ export default class TextHighlight extends Mark implements MenuBtnView {
     };
   }
 
-  menuBtnView ({ commands, getMarkAttrs, t }: MenuData) {
+  menuBtnView ({ commands, getMarkAttrs, editor, t }: MenuData) {
     return {
       component: ColorPopover,
       componentProps: {
         colorSet: this.options.colors,
         selectedColor: getMarkAttrs('text_highlight').highlightColor,
+        lastColor: editor.view.lastTextHightlight || '#ffc107',
         tooltip: t('editor.extensions.TextHighlight.tooltip'),
         icon: 'highlighter',
       },
       componentEvents: {
-        confirm: (color: string) => commands.text_highlight(color),
+        confirm: (color: string) => {
+          commands.text_highlight(color);
+          editor.view.lastTextHightlight = color;
+        },
       },
     };
   }

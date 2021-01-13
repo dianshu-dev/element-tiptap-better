@@ -32,14 +32,18 @@
       </link-bubble-menu>
 
       <template v-else-if="activeMenu === 'default'">
-        <component
-          v-for="(spec, i) in generateCommandButtonComponentSpecs(editorContext)"
-          :key="'command-button' + i"
-          :is="spec.component"
-          :enable-tooltip="et.tooltip"
-          v-bind="spec.componentProps"
-          v-on="spec.componentEvents"
-        />
+        <template
+          v-for="(spec, i) in generateCommandButtonComponentSpecs(editorContext)">
+          <component
+            v-if="spec.component.name !== 'MenuSplit'"
+            :key="'command-button' + i"
+            :is="spec.component"
+            :enable-tooltip="et.tooltip"
+            v-bind="spec.componentProps"
+            v-on="spec.componentEvents"
+          />
+          <div v-else :key="'command-button' + i" class="el-tiptap-editor__menu-split"></div>
+        </template>
       </template>
     </div>
   </editor-menu-bubble>

@@ -3,20 +3,29 @@
 .el-tiptap-editor {
   $editor: &;
 
+  &__menu-split {
+    margin: auto 4px;
+    width: 1px;
+    height: 18px;
+    background: #ddd;
+  }
+
   &__command-button {
     border: 1px solid transparent;
     box-sizing: border-box;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 4px;
     color: $primary-text-color;
     cursor: pointer;
     display: flex;
     justify-content: center;
-    height: 40px;
-    margin: 2px;
+    height: 29px;
+    margin: 1px;
     outline: 0;
-    transition: all .2s ease-in-out;
-    width: 40px;
+    //transition: all .2s ease-in-out;
+    width: 29px;
+    position: relative;
+    font-size: 14px;
 
     &:hover {
       background-color: darken($light-background-color, 5%);
@@ -35,6 +44,14 @@
       &:hover {
         background-color: transparent;
       }
+    }
+
+    .fa-icon {
+      width: auto;
+      height: 1em;
+
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 }
@@ -164,16 +181,6 @@
     &--remove {
       position: relative;
 
-      &:hover {
-        &::before {
-          transform: rotate(-45deg);
-        }
-
-        &::after {
-          transform: rotate(45deg);
-        }
-      }
-
       &::before,
       &::after {
         background-color: $danger-color;
@@ -186,6 +193,14 @@
         transform: translateX(-50%);
         transition: all .2s ease-in-out;
         width: 2px;
+      }
+
+      &::before {
+        transform: rotate(-45deg);
+      }
+
+      &::after {
+        transform: rotate(45deg);
       }
     }
   }

@@ -15,7 +15,7 @@ export interface ElementTiptapPluginInterface {
 }
 
 export interface MenuBtnComponentOptions {
-  component: VueConstructor;
+  component: any;
   componentProps?: { [key: string]: any };
   componentEvents?: { [key: string]: any };
 }

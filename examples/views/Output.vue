@@ -93,7 +93,7 @@ export default {
   &__container {
     display: flex;
     flex-direction: column;
-    width: 60vw;
+    width: 885px;
 
     .section {
       margin-top: 50px;

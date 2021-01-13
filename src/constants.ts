@@ -14,8 +14,8 @@ export const DEFAULT_IMAGE_URL_REGEX = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]
 export const DEFAULT_IMAGE_WIDTH = 200;
 export const DEFAULT_IMAGE_DISPLAY = ImageDisplay.INLINE;
 
-export const LINE_HEIGHT_100 = 1.7;
-export const DEFAULT_LINE_HEIGHT = '100%';
+export const LINE_HEIGHT_100 = 1.4;
+export const DEFAULT_LINE_HEIGHT = '1';
 
 export const enum EVENTS {
   INIT = 'init',

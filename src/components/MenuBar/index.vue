@@ -5,15 +5,18 @@
   >
     <slot v-bind="editorContext">
       <div class="el-tiptap-editor__menu-bar">
-        <component
-          v-for="(spec, i) in generateCommandButtonComponentSpecs(editorContext)"
-          :key="'command-button' + i"
-          :is="spec.component"
-          :enable-tooltip="et.tooltip"
-          v-bind="spec.componentProps"
-          :readonly="et.isCodeViewMode"
-          v-on="spec.componentEvents"
-        />
+        <template v-for="(spec, i) in generateCommandButtonComponentSpecs(editorContext)">
+          <component
+            v-if="spec.component.name !== 'MenuSplit'"
+            :key="'command-button' + i"
+            :is="spec.component"
+            :enable-tooltip="et.tooltip"
+            v-bind="spec.componentProps"
+            :readonly="et.isCodeViewMode"
+            v-on="spec.componentEvents"
+          />
+          <div v-else :key="'command-button' + i" class="el-tiptap-editor__menu-split"></div>
+        </template>
       </div>
     </slot>
   </editor-menu-bar>
@@ -40,6 +43,7 @@ export default class Menubar extends Vue {
 
   private generateCommandButtonComponentSpecs (editorContext: MenuData): MenuBtnViewType[] {
     const extensionManager = this.editor.extensions;
+    // console.log(extensionManager, extensionManager.extensions, 11111);
     return extensionManager.extensions.reduce <MenuBtnViewType[]>((acc, extension) => {
       if (extension.options.menubar === false) return acc;
       if (typeof extension.menuBtnView !== 'function') return acc;
@@ -55,7 +59,6 @@ export default class Menubar extends Vue {
           ...menuBtnComponentSpec,
         ];
       }
-
       return [
         ...acc,
         menuBtnComponentSpec,

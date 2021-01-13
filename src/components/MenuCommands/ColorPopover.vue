@@ -1,70 +1,56 @@
 <template>
-  <el-popover
-    v-model="popoverVisible"
-    :disabled="et.isCodeViewMode"
-    placement="bottom"
-    trigger="click"
-    popper-class="el-tiptap-popper"
-  >
-    <div class="color-set">
-      <div
-        v-for="color in colorSet"
-        :key="color"
-        class="color__wrapper"
-      >
-        <div
-          :style="{
-            'background-color': color,
-          }"
-          :class="{ 'color--selected': selectedColor === color }"
-          class="color"
-          @mousedown.prevent
-          @click.stop="confirmColor(color)"
-        />
+  <el-tooltip effect="dark" :content="tooltip" placement="top">
+    <div class="el-tiptap-color-popover">
+      <div class="color_btn" @mousedown.prevent @click="confirmColor(lastColor)">
+        <div>
+          <div class="color_icon" style="background: #ddd">A</div>
+          <div class="color_block" :style="{background: lastColor}"></div>
+        </div>
       </div>
+      <el-popover
+        v-model="popoverVisible"
+        :disabled="et.isCodeViewMode"
+        placement="bottom"
+        trigger="click"
+        popper-class="el-tiptap-popper">
 
-      <div class="color__wrapper">
-        <div
-          class="color color--remove"
-          @mousedown.prevent
-          @click.stop="confirmColor('')"
-        />
-      </div>
+        <div class="color-set">
+          <div
+            v-for="color in colorSet"
+            :key="color"
+            class="color__wrapper">
+            <div
+              :style="{ backgroundColor: color }"
+              :class="{ 'color--selected': selectedColor === color }"
+              class="color"
+              @mousedown.prevent
+              @click.stop="confirmColor(color)">
+            </div>
+          </div>
+          <div class="color__wrapper">
+            <div
+              class="color color--remove"
+              @mousedown.prevent
+              @click.stop="confirmColor('')">
+            </div>
+          </div>
+        </div>
+
+        <div class="color-hex">
+          <input type="color" v-model="lastColor" @click.stop @change="confirmColor($event.target.value)"/>
+        </div>
+
+        <div class="color_more_btn" slot="reference">
+          <i class="el-icon-caret-bottom" style="color: #999"></i>
+        </div>
+      </el-popover>
     </div>
-
-    <div class="color-hex">
-      <el-input
-        v-model="color"
-        placeholder="HEX"
-        autofocus="true"
-        maxlength="7"
-        size="small"
-        class="color-hex__input"
-      />
-
-      <el-button
-        type="text"
-        size="small"
-        class="color-hex__button"
-        @click="confirmColor(color)"
-      >
-        {{ confirmText }}
-      </el-button>
-    </div>
-
-    <command-button
-      slot="reference"
-      :enable-tooltip="et.tooltip"
-      :tooltip="tooltip"
-      :icon="icon"
-      :readonly="et.isCodeViewMode"
-    />
-  </el-popover>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Emit, Vue, Inject } from 'vue-property-decorator';
-import { Button, Popover, Input } from 'element-ui';
+import { Button, Popover, Input, Tooltip } from 'element-ui';
 import CommandButton from './CommandButton.vue';
 
 @Component({
@@ -72,6 +58,7 @@ import CommandButton from './CommandButton.vue';
     [Button.name]: Button,
     [Popover.name]: Popover,
     [Input.name]: Input,
+    [Tooltip.name]: Tooltip,
     CommandButton,
   },
 })
@@ -87,6 +74,12 @@ export default class ColorPopover extends Vue {
     default: '',
   })
   readonly selectedColor!: string;
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  readonly lastColor!: string;
 
   @Prop({
     type: String,
@@ -121,8 +114,65 @@ export default class ColorPopover extends Vue {
   @Emit('confirm')
   confirmColor (color: string): string {
     this.popoverVisible = false;
-
-    return color;
+    return color !== '#ffffff' ? color : '';
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .el-tiptap-color-popover {
+    width: 40px;
+    height: 29px;
+    margin: 1px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    outline: none;
+
+    &:hover {
+      background: #e4e9f2;
+
+      .color_more_btn {
+        border-left: 1px solid #ccc;
+      }
+    }
+
+    .color_btn {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #666;
+      cursor: pointer;
+
+      .color_icon {
+        width: 15px;
+        height: 13px;
+        line-height: 14px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 auto 1px;
+      }
+
+      .color_block {
+        width: 17px;
+        height: 3px;
+        margin: 0 auto;
+      }
+    }
+
+    .color_more_btn {
+      width: 16px;
+      height: 29px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      position: relative;
+      cursor: pointer;
+    }
+  }
+</style>

@@ -169,7 +169,7 @@ export default {
   margin-bottom: 30px;
 
   &__wrapper {
-    width: 60vw;
+    width: 885px;
   }
 }
 

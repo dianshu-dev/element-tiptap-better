@@ -12,7 +12,10 @@
 
     <el-tiptap
       :extensions="richAndToolsExtensions"
-      content="Rich And Tools Extensions"
+      :content="content"
+      style="height: 600px"
+      lang="zh"
+      @onInit="onInit"
     />
   </div>
 </template>
@@ -57,10 +60,12 @@ import {
   HorizontalRule,
   Fullscreen,
   Print,
-  Preview,
-  SelectAll,
+  Search,
   History,
   CodeView,
+  CodeBlockHighlight,
+  DragItem,
+  MenuSplit,
 } from 'element-tiptap';
 
 import codemirror from 'codemirror';
@@ -68,6 +73,9 @@ import 'codemirror/lib/codemirror.css'; // import base style
 import 'codemirror/mode/xml/xml.js'; // language
 import 'codemirror/addon/selection/active-line.js'; // require active-line.js
 import 'codemirror/addon/edit/closetag.js'; // autoCloseTags
+
+import javascript from 'highlight.js/lib/languages/javascript';
+import css from 'highlight.js/lib/languages/css';
 
 export default {
   data () {
@@ -109,6 +117,32 @@ export default {
         new Doc(),
         new Text(),
         new Paragraph(),
+        new History(),
+        new FormatClear(),
+        new MenuSplit(),
+        new Heading({ level: 6 }),
+        new FontType(),
+        new FontSize(),
+        new MenuSplit(),
+        new Bold(),
+        new Underline(),
+        new Italic(),
+        new Strike(),
+        new TextColor(),
+        new TextHighlight(),
+        new LineHeight(),
+        new MenuSplit(),
+        new TextAlign(),
+        new Code(),
+        new ListItem(),
+        new BulletList(),
+        new OrderedList(),
+        new TodoItem({ nested: true }),
+        new TodoList(),
+        new Indent(),
+        new MenuSplit(),
+        new Blockquote(),
+        new CodeBlock(),
         new Link(),
         new Image(),
         new Iframe(),
@@ -117,10 +151,17 @@ export default {
         new TableCell(),
         new TableRow(),
         new HorizontalRule(),
-        new Print(),
-        new Preview(),
-        new SelectAll(),
+        new MenuSplit(),
+        new Search(),
         new Fullscreen(),
+        new Print(),
+        new DragItem(),
+        new CodeBlockHighlight({
+          languages: {
+            javascript,
+            css,
+          },
+        }),
         new CodeView({
           codemirror,
           codemirrorOptions: {
@@ -129,9 +170,114 @@ export default {
           },
         }),
         new TrailingNode(),
-        new History(),
       ],
+      content: `<h2>
+        Drag Handle
+      </h2>
+      <p>
+        Add <code>data-drag-handle</code> to a DOM element within your node view to define your custom drag handle.
+      </p>
+      <div data-type="drag_item">
+        Drag me!
+      </div>
+      <div data-type="drag_item">
+        Try it!
+      </div>
+      <div data-type="drag_item">
+        It works!
+      </div>`,
+      editor: null,
     };
+  },
+  methods: {
+    onInit ({ editor }) {
+      this.editor = editor;
+      console.log(this.editor);
+    }
   },
 };
 </script>
+
+<style lang="scss">
+  [data-type="drag_item"] {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: rgba(black, 0.05);
+    margin: 0.5rem 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+
+    > :first-child {
+      flex: 1;
+      outline: none;
+    }
+
+    [data-drag-handle] {
+      width: 24px;
+      height: 24px;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      color: #606266;
+      cursor: move;
+    }
+  }
+
+  pre {
+    &::before {
+      content: attr(data-language);
+      text-transform: uppercase;
+      display: block;
+      text-align: right;
+      font-weight: bold;
+      font-size: 0.6rem;
+    }
+    code {
+      .hljs-comment,
+      .hljs-quote {
+        color: #999999;
+      }
+      .hljs-variable,
+      .hljs-template-variable,
+      .hljs-attribute,
+      .hljs-tag,
+      .hljs-name,
+      .hljs-regexp,
+      .hljs-link,
+      .hljs-name,
+      .hljs-selector-id,
+      .hljs-selector-class {
+        color: #f2777a;
+      }
+      .hljs-number,
+      .hljs-meta,
+      .hljs-built_in,
+      .hljs-builtin-name,
+      .hljs-literal,
+      .hljs-type,
+      .hljs-params {
+        color: #f99157;
+      }
+      .hljs-string,
+      .hljs-symbol,
+      .hljs-bullet {
+        color: #99cc99;
+      }
+      .hljs-title,
+      .hljs-section {
+        color: #ffcc66;
+      }
+      .hljs-keyword,
+      .hljs-selector-tag {
+        color: #6699cc;
+      }
+      .hljs-emphasis {
+        font-style: italic;
+      }
+      .hljs-strong {
+        font-weight: 700;
+      }
+    }
+  }
+</style>

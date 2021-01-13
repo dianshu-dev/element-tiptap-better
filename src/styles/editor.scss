@@ -57,16 +57,6 @@
     }
   }
 
-  > #{$root}__content {
-    background-color: $white-color;
-    border: 1px solid $lighter-border-color;
-    border-bottom: 0;
-    border-top: 0;
-    color: $black-color;
-    flex-grow: 1;
-    padding: 30px 20px;
-  }
-
   &__menu-bar {
     background-color: $white-color;
     border: 1px solid $lighter-border-color;
@@ -91,10 +81,9 @@
 
   &__menu-bubble {
     background-color: $white-color;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
     display: flex;
-    padding: 5px;
     opacity: 0;
     position: absolute;
     transform: translateX(-50%);
@@ -108,15 +97,88 @@
     }
   }
 
+  &__zoom-tool {
+    display: flex;
+    user-select: none;
+
+    button {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 12px;
+
+      &:hover {
+        background: #f2f2f2;
+      }
+    }
+
+    .zoom-value {
+      display: inline-block;
+      width: 40px;
+      line-height: 24px;
+      margin-left: 4px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+
+      &:hover {
+        background: #f2f2f2;
+      }
+    }
+  }
+
+  &__zoom-wrap {
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    background-color: #f5f6f7;
+    border: 1px solid $lighter-border-color;
+    border-bottom: 0;
+    border-top: 0;
+    overflow: auto;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  &__zoom {
+    position: absolute;
+    top: 0;
+    padding: 20px;
+    box-sizing: content-box;
+    //transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  }
+
   &__content {
+    position: absolute;
+    width: 794px;
+    min-height: 1123px;
+    border: 1px solid $lighter-border-color;
+    color: $black-color;
+    flex-grow: 1;
+    overflow: visible;
+    background-color: $white-color;
     box-sizing: border-box;
     font-family: sans-serif;
-    line-height: 1.7;
-    overflow-x: auto;
     text-align: left;
+    transform-origin: 0 0;
+    //transition: transform 0.3s ease 0s;
 
-    > * {
+    .ProseMirror {
+      min-height: 1123px;
+      padding: 50px 40px;
       box-sizing: border-box;
+    }
+
+    .find {
+      background: rgba(255, 213, 0, 0.5);
+    }
+
+    .find-current {
+      background: red;
     }
 
     p {
@@ -209,7 +271,7 @@
     }
 
     pre {
-      background-color: $primary-text-color;
+      background-color: #000;
       color: $lighter-primary-color;
       font-size: 16px;
       overflow-x: auto;
@@ -388,7 +450,7 @@
         }
 
         &[data-text-align=justify] {
-          text-align: space-between !important;
+          justify-content: space-between !important;
         }
 
         .todo-content {
@@ -501,8 +563,8 @@
     display: flex;
     font-family: sans-serif;
     font-size: 14px;
-    justify-content: flex-end;
-    padding: 10px;
+    justify-content: space-between;
+    padding: 0 8px;
   }
 
   .ProseMirror {
@@ -531,6 +593,6 @@
   }
 
   &__characters {
-    color: lighten($regular-text-color, 20%);
+    font-size: 12px;
   }
 }
