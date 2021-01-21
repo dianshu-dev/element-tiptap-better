@@ -18,8 +18,11 @@ const DEFAULT_FONT_TYPE_NAMES = [
   'monospace',
 ];
 
-export const DEFAULT_FONT_TYPE_MAP = DEFAULT_FONT_TYPE_NAMES.reduce((obj: { [key: string]: string }, type: string) => {
-  obj[type] = type;
+export const DEFAULT_FONT_TYPE_MAP = DEFAULT_FONT_TYPE_NAMES.reduce((obj: any, type: string) => {
+  obj[type] = {
+    label: type,
+    value: type,
+  };
   return obj;
 }, {});
 

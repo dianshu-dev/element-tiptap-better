@@ -54,7 +54,8 @@ export default class FontType extends Mark implements MenuBtnView {
         type,
         name,
       );
-      if (tr.docChanged || tr.storedMarksSet) {
+      if (tr.docChanged || tr.storedMarksSet || !name) {
+        tr.scrollIntoView();
         dispatch && dispatch(tr);
         return true;
       }

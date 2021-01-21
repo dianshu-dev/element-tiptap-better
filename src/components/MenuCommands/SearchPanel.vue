@@ -124,13 +124,13 @@ export default class SearchPanel extends Vue {
   }
 
   private keyDownSearch (e: any): void {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
-      e.preventDefault();
-      this.showReplace = false;
-      this.setSearchTerm();
-    } else if ((e.metaKey || e.ctrlKey) && e.key === 'r') {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'f') {
       e.preventDefault();
       this.showReplace = true;
+      this.setSearchTerm();
+    } else if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+      e.preventDefault();
+      this.showReplace = false;
       this.setSearchTerm();
     }
   }

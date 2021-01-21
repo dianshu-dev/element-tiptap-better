@@ -134,10 +134,9 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
   readonly extensions!: any[];
 
   @Model('onUpdate', {
-    type: String,
     default: '',
   })
-  readonly content!: string;
+  readonly content!: string | object;
 
   @Prop({
     type: String,

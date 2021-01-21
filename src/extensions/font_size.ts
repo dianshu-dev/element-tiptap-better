@@ -4,7 +4,7 @@ import { CommandFunction } from 'tiptap-commands';
 import { Node as ProsemirrorNode, MarkType } from 'prosemirror-model';
 import { MenuBtnView } from '@/../types';
 import FontSizeDropdown from '@/components/MenuCommands/FontSizeDropdown.vue';
-import { DEFAULT_FONT_SIZES, setFontSize, convertToPX } from '@/utils/font_size';
+import { DEFAULT_FONT_SIZES, setFontSize, convertToPT } from '@/utils/font_size';
 
 export default class FontSize extends Mark implements MenuBtnView {
   get name () {
@@ -20,7 +20,7 @@ export default class FontSize extends Mark implements MenuBtnView {
   get schema () {
     return {
       attrs: {
-        px: '',
+        pt: '',
       },
       inline: true,
       group: 'inline',
@@ -30,21 +30,21 @@ export default class FontSize extends Mark implements MenuBtnView {
           getAttrs: (fontSize: string) => {
             const attrs = {};
             if (!fontSize) return attrs;
-            const px = convertToPX(fontSize);
-            if (!px) return attrs;
+            const pt = convertToPT(fontSize);
+            if (!pt) return attrs;
 
             return {
-              px,
+              pt,
             };
           },
         },
       ],
       toDOM (node: ProsemirrorNode) {
-        const { px } = node.attrs;
+        const { pt } = node.attrs;
         const attrs: { style?: string } = {};
 
-        if (px) {
-          attrs.style = `font-size: ${px}px`;
+        if (pt) {
+          attrs.style = `font-size: ${pt}pt`;
         }
         return ['span', attrs, 0];
       },
@@ -53,6 +53,7 @@ export default class FontSize extends Mark implements MenuBtnView {
 
   commands ({ type }: { type: MarkType }) {
     return (fontSize: string): CommandFunction => (state, dispatch) => {
+      console.log(fontSize, 889999);
       let { tr } = state;
       tr = setFontSize(
         state.tr.setSelection(state.selection),

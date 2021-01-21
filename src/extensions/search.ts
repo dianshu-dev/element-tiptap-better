@@ -221,10 +221,10 @@ export default class Search extends Extension implements MenuBtnView {
   }
 
   resultSelectionView (state: any, dispatch: any): void {
-    const result = this.results[this.index] || null;
-    if (!result) {
+    if (this.index == null || !this.results.length) {
       return;
     }
+    const result = this.results[this.index];
     const { tr, doc } = state;
     const $start = doc.resolve(result.from);
     const $end = doc.resolve(result.to);

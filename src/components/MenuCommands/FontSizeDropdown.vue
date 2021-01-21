@@ -63,7 +63,7 @@ export default class FontSizeDropdown extends Vue {
 
   private get activeFontSize (): string {
     const value = findActiveFontSize(this.editor.state);
-    return value !== 'default' ? value : '14';
+    return value !== 'default' ? value : '11';
   }
 
   private toggleFontSize (size: string) {

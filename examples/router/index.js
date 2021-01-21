@@ -5,6 +5,7 @@ const Index = () => import('../views/Index.vue');
 const Simple = () => import('../views/Simple.vue');
 const AllExtensions = () => import('../views/AllExtensions.vue');
 const BubbleMenu = () => import('../views/BubbleMenu.vue');
+const Collaboration = () => import('../views/Collaboration.vue');
 const Placeholder = () => import('../views/Placeholder.vue');
 const Readonly = () => import('../views/Readonly.vue');
 const Title = () => import('../views/Title.vue');
@@ -33,6 +34,11 @@ const routes = [
         name: 'BubbleMenu',
         path: '/bubble_menu',
         component: BubbleMenu,
+      },
+      {
+        name: 'Collaboration',
+        path: '/collaboration',
+        component: Collaboration,
       },
       {
         name: 'Placeholder',

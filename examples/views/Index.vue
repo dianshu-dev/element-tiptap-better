@@ -71,6 +71,10 @@ export default {
         route: 'AllExtensions',
       },
       {
+        label: 'Collaboration',
+        route: 'Collaboration',
+      },
+      {
         label: 'Bubble Menu',
         route: 'BubbleMenu',
       },

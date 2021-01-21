@@ -7,7 +7,9 @@
 
     <el-tooltip effect="dark" :content="et.t('editor.extensions.FontType.tooltip')" placement="top">
       <div class="font_type_menu_btn">
-        <span class="font_type_name" :title="activeFontType">{{activeFontType}}</span>
+        <span class="font_type_name" :title="activeFontType">
+          {{activeFontType || this.et.t('editor.extensions.FontType.default')}}
+        </span>
         <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #999"></i>
       </div>
     </el-tooltip>
@@ -17,18 +19,18 @@
       class="el-tiptap-dropdown-menu"
     >
       <el-dropdown-item
-        v-for="name in fontTypes"
-        :key="name"
-        :command="name"
+        v-for="item in fontTypes"
+        :key="item.value"
+        :command="item.value"
         :class="{
-          'el-tiptap-dropdown-menu__item--active': name === activeFontType,
+          'el-tiptap-dropdown-menu__item--active': item.value === activeFontType,
         }"
         class="el-tiptap-dropdown-menu__item"
       >
         <span
-          :data-font="name"
-          :style="{ 'font-family': name }"
-        >{{ name }}</span>
+          :data-font="item.value"
+          :style="{ 'font-family': item.value }"
+        >{{ item.label }}</span>
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
@@ -70,15 +72,19 @@ export default class FontTypeDropdown extends Vue {
       Logger.error('\'fontTypes\' should be an object');
       return DEFAULT_FONT_TYPE_MAP;
     }
-
-    return fontTypes;
+    const defaultFont = {
+      label: '默认字体',
+      value: '',
+    };
+    return { defaultFont, ...fontTypes };
   }
 
   private get activeFontType (): string {
-    return findActiveFontType(this.editor.state) || this.et.t('editor.extensions.FontType.default');
+    return findActiveFontType(this.editor.state);
   }
 
   private toggleFontType (name: string) {
+    console.log('toggleFontType', name, this.activeFontType);
     if (name === this.activeFontType) {
       this.editorContext.commands.font_type('');
     } else {
