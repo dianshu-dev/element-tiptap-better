@@ -1,6 +1,6 @@
 {
   "name": "element-tiptap-better",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "🌸A modern WYSIWYG rich-text editor using tiptap and Element UI for Vue.js",
   "author": "dianshu-dev",
   "scripts": {
@@ -23,13 +23,10 @@
     "@juggle/resize-observer": "^3.1.2",
     "codemirror": "^5.54.0",
     "core-js": "^3.4.3",
-    "prosemirror-collab": "^1.2.2",
     "prosemirror-utils": "^0.9.6",
-    "randomcolor": "^0.6.2",
+    "socket.io-client": "^2.1.1",
     "tiptap": "1.30.0",
     "tiptap-extensions": "1.33.2",
-    "tiptap-commands": "1.15.0",
-    "tiptap-utils": "1.11.0",
     "vue-awesome": "^4.0.2",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0"
@@ -41,10 +38,10 @@
     "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@types/prosemirror-commands": "^1.0.4",
-    "@types/prosemirror-model": "^1.11.2",
-    "@types/prosemirror-state": "^1.2.6",
-    "@types/prosemirror-transform": "^1.1.2",
+    "@types/prosemirror-commands": "1.0.3",
+    "@types/prosemirror-model": "1.11.2",
+    "@types/prosemirror-state": "1.2.5",
+    "@types/prosemirror-view": "1.16.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "@vue/cli-plugin-babel": "~4.4.1",
@@ -79,8 +76,7 @@
     "rollup-plugin-vue": "^5.1.9",
     "sass-loader": "^8.0.0",
     "semantic-release": "^17.3.1",
-    "socket.io-client": "^2.1.1",
-    "typescript": "^3.9.7",
+    "typescript": "^3.9.3",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
     "vue-template-compiler": "^2.6.10"
@@ -90,10 +86,7 @@
     "vue": "^2.0.0"
   },
   "resolutions": {
-    "prosemirror-model": "1.11.2",
-    "prosemirror-state": "1.3.3",
-    "prosemirror-transform": "1.2.8",
-    "prosemirror-view": "1.15.7"
+    "prosemirror-model": "1.11.2"
   },
   "bugs": {
     "url": "https://github.com/dianshu-dev/element-tiptap-better/issues"
