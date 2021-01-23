@@ -8,7 +8,6 @@ export {
   TableHeader,
   TableCell,
   TableRow,
-  // Collaboration,
 } from 'tiptap-extensions';
 
 // nodes
@@ -51,7 +50,5 @@ export { default as Print } from './print';
 export { default as Preview } from './preview';
 export { default as Search } from './search';
 export { default as SelectAll } from './select_all';
-export { default as CodeView } from './code_view';
-export { default as Cursors } from './cursors';
 export { default as Collaboration } from './collaboration';
 export { default as MenuSplit } from './menu_split';

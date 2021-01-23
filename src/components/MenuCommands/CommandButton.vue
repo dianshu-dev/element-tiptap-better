@@ -10,9 +10,11 @@
     <div
       :class="commandButtonClass"
       @mousedown.prevent
-      @click="onClick"
-    >
-      <v-icon :name="icon"/>
+      @click="onClick">
+
+      <div class="command-icon-wrap">
+        <v-icon :name="icon"/>
+      </div>
     </div>
   </el-tooltip>
 </template>

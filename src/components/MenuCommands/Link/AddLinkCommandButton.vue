@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: inline-block">
     <command-button
       :is-active="editorContext.isActive.link()"
       :readonly="et.isCodeViewMode"

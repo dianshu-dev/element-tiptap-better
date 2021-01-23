@@ -1,28 +1,30 @@
 <template>
   <div class="el-tiptap-color-picker">
-    <div class="color_btn" @mousedown.prevent @click="_change(lastColor)">
-      <div>
-        <div class="color_icon">A</div>
-        <div class="color_block" :style="{background: lastColor || '#000000'}"></div>
+    <div class="color_btn_wrap">
+      <div class="color_btn" @mousedown.prevent @click="_change(lastColor)">
+        <div>
+          <div class="color_icon">A</div>
+          <div class="color_block" :style="{background: lastColor || '#000000'}"></div>
+        </div>
       </div>
+
+      <el-popover
+        v-model="showPanel"
+        placement="bottom"
+        trigger="click"
+        popper-class="el-tiptap-popper">
+        <div>
+          <div class="x-color-picker__clear" @click.stop="_change('')">清除颜色</div>
+          <theme-color></theme-color>
+          <standard-color></standard-color>
+          <more-color></more-color>
+        </div>
+
+        <div slot="reference" class="color_more_btn" @mousedown.prevent>
+          <i class="el-icon-caret-bottom" style="color: #999"></i>
+        </div>
+      </el-popover>
     </div>
-
-    <el-popover
-      v-model="showPanel"
-      placement="bottom"
-      trigger="click"
-      popper-class="el-tiptap-popper">
-      <div>
-        <div class="x-color-picker__clear" @click.stop="_change('')">清除颜色</div>
-        <theme-color></theme-color>
-        <standard-color></standard-color>
-        <more-color></more-color>
-      </div>
-
-      <div slot="reference" class="color_more_btn" @mousedown.prevent>
-        <i class="el-icon-caret-bottom" style="color: #999"></i>
-      </div>
-    </el-popover>
   </div>
 </template>
 
@@ -71,58 +73,65 @@ export default {
 
 <style lang="scss">
   .el-tiptap-color-picker {
-    width: 40px;
+    width: 44px;
     height: 29px;
     margin: 1px;
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    vertical-align: middle;
     border-radius: 4px;
     outline: none;
 
     &:hover {
       background: #e4e9f2;
 
-      .color_more_btn {
+      .color_btn_wrap .color_more_btn {
         border-left: 1px solid #ccc;
       }
     }
 
-    .color_btn {
-      flex: 1;
+    .color_btn_wrap {
       height: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #666;
-      cursor: pointer;
+      justify-content: center;
 
-      .color_icon {
-        width: 15px;
-        height: 14px;
-        line-height: 15px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: bold;
-        margin: 0 auto;
+      .color_btn {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        cursor: pointer;
+
+        .color_icon {
+          width: 15px;
+          height: 15px;
+          line-height: 15px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: bold;
+          margin: 0 auto;
+        }
+
+        .color_block {
+          width: 16px;
+          height: 3px;
+          margin: 0 auto;
+        }
       }
 
-      .color_block {
+      .color_more_btn {
         width: 16px;
-        height: 3px;
-        margin: 0 auto;
+        height: 29px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        box-sizing: border-box;
+        position: relative;
+        cursor: pointer;
       }
-    }
-
-    .color_more_btn {
-      width: 16px;
-      height: 29px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid transparent;
-      box-sizing: border-box;
-      position: relative;
-      cursor: pointer;
     }
   }
 

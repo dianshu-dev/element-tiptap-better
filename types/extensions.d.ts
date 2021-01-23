@@ -40,6 +40,4 @@ export class Preview {}
 export class SelectAll {}
 export class Search {}
 export class MenuSplit {}
-export class CodeView {}
-export class Cursors {}
 export class Collaboration {}

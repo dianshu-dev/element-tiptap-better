@@ -1,71 +1,65 @@
 <template>
-  <el-popover
-    v-model="searchVisible"
-    :append-to-body="false"
-    trigger="manual"
-    placement="bottom"
-    :visible-arrow="false"
-    @hide="searchPanelClose"
-    popper-class="el-titap-editor__search-panel">
-
-    <div class="search-panel-wrap">
-      <div class="search-panel-header">
-        <div>
-          <span :class="{active: !showReplace}" @click="showReplace = false">搜索</span>
-          <span :class="{active: showReplace}" @click="showReplace = true">替换</span>
-        </div>
-        <i class="el-icon-close" @click.stop="searchPanelClose"></i>
-      </div>
-      <div class="search-input-wrap">
-        <el-input
-          ref="searchInput"
-          v-model="searchTerm"
-          size="small"
-          placeholder="输入搜索内容"
-          clearable
-          @input="findDebounce"
-          @keydown.enter.native="find">
-        </el-input>
-        <button class="button" @click="runCommand('findPrev', searchTerm)">
-          <i class="el-icon-top"></i>
-        </button>
-        <button class="button" @click="runCommand('findNext', searchTerm)">
-          <i class="el-icon-bottom"></i>
-        </button>
-        <span v-if="resultLength">{{resultIndex}}/{{resultLength}}</span>
-        <span v-else>无结果</span>
-        <!--<el-checkbox-->
-        <!--  v-model="regexSwitch"-->
-        <!--  @change="runCommand('findRegexSwitch', regexSwitch)">Regex-->
-        <!--</el-checkbox>-->
-      </div>
-      <div v-if="showReplace" class="replace-input-wrap">
-        <el-input
-          v-model="replaceWith"
-          size="small"
-          placeholder="输入替换内容"
-          clearable
-          @keydown.enter.native="runCommand('replace', replaceWith)">
-        </el-input>
-        <button class="button" @click="runCommand('replace', replaceWith)">替换</button>
-        <button class="button" @click="runCommand('replaceAll', replaceWith)">替换全部</button>
-      </div>
-    </div>
-
+  <div ref="searchPanelWrap" style="display: inline-block; vertical-align: middle">
     <command-button
-      slot="reference"
       :icon="icon"
       :command="() => changeVisible(!searchVisible)"
       :enable-tooltip="et.tooltip"
       :tooltip="tooltip"
     />
-  </el-popover>
+
+    <div v-show="searchVisible" ref="searchPanel" class="el-titap-editor__search-panel">
+      <div class="search-panel-wrap">
+        <div class="search-panel-header">
+          <div>
+            <span :class="{active: !showReplace}" @click="showReplace = false">搜索</span>
+            <span :class="{active: showReplace}" @click="showReplace = true">替换</span>
+          </div>
+          <i class="el-icon-close" @click.stop="searchPanelClose"></i>
+        </div>
+        <div class="search-input-wrap">
+          <el-input
+            ref="searchInput"
+            v-model="searchTerm"
+            size="small"
+            placeholder="输入搜索内容"
+            clearable
+            @input="findDebounce"
+            @keydown.enter.native="find">
+          </el-input>
+          <button class="button" @click="runCommand('findPrev', searchTerm)">
+            <i class="el-icon-top"></i>
+          </button>
+          <button class="button" @click="runCommand('findNext', searchTerm)">
+            <i class="el-icon-bottom"></i>
+          </button>
+          <span v-if="resultLength">{{resultIndex}}/{{resultLength}}</span>
+          <span v-else>无结果</span>
+          <!--<el-checkbox-->
+          <!--  v-model="regexSwitch"-->
+          <!--  @change="runCommand('findRegexSwitch', regexSwitch)">Regex-->
+          <!--</el-checkbox>-->
+        </div>
+        <div v-if="showReplace" class="replace-input-wrap">
+          <el-input
+            v-model="replaceWith"
+            size="small"
+            placeholder="输入替换内容"
+            clearable
+            @keydown.enter.native="runCommand('replace', replaceWith)">
+          </el-input>
+          <button class="button" @click="runCommand('replace', replaceWith)">替换</button>
+          <button class="button" @click="runCommand('replaceAll', replaceWith)">替换全部</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Inject, Ref } from 'vue-property-decorator';
 import { MenuData } from 'tiptap';
 import { Button, Popover, Input, Checkbox, Tooltip } from 'element-ui';
+
 import CommandButton from './CommandButton.vue';
 import { debounce } from '@/utils/debounce';
 
@@ -109,17 +103,25 @@ export default class SearchPanel extends Vue {
 
   @Inject() readonly et!: any;
 
-  @Ref('searchInput') readonly searchInput!: any;
+  @Ref('searchPanelWrap') readonly panelWrapDom!: any;
+  @Ref('searchPanel') readonly panelDom!: any;
+  @Ref('searchInput') readonly inputRef!: any;
 
   private get editor () {
     return this.editorContext.editor;
   }
 
+  private get container () {
+    return this.panelWrapDom.parentNode.parentNode;
+  }
+
   mounted (): void {
+    this.container.appendChild(this.panelDom);
     document.addEventListener('keydown', this.keyDownSearch, false);
   }
 
   beforeDestroy (): void {
+    this.container.removeChild(this.panelDom);
     document.removeEventListener('keydown', this.keyDownSearch, false);
   }
 
@@ -146,7 +148,7 @@ export default class SearchPanel extends Vue {
     this.changeVisible(true);
   }
 
-  findDebounce = debounce(this.find, 500, { isImmediate: false });
+  findDebounce = debounce(this.find, 300, { isImmediate: false });
 
   find () {
     console.log('find-----');
@@ -158,9 +160,9 @@ export default class SearchPanel extends Vue {
     }
     this.$nextTick(() => {
       const length = this.searchTerm.length;
-      this.searchInput.$el.selectionStart = length;
-      this.searchInput.$el.selectionEnd = length;
-      this.searchInput.focus();
+      this.inputRef.$el.selectionStart = length;
+      this.inputRef.$el.selectionEnd = length;
+      this.inputRef.focus();
     });
   }
 
@@ -178,9 +180,9 @@ export default class SearchPanel extends Vue {
 
   searchInputFocus () {
     if (this.searchTerm) {
-      this.searchInput.select();
+      this.inputRef.select();
     } else {
-      this.searchInput.focus();
+      this.inputRef.focus();
     }
   }
 
@@ -203,13 +205,19 @@ export default class SearchPanel extends Vue {
 
 <style lang="scss">
   .el-titap-editor__search-panel {
+    position: absolute;
     width: 380px;
-    right: 15px !important;
-    top: 32px !important;
-    left: unset !important;
+    right: -1px;
+    top: 40px;
+    background: white;
     padding: 2px 10px 10px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e4;
+    z-index: 2001;
 
     .search-panel-wrap {
+      font-size: 14px;
+
       .search-panel-header {
         position: relative;
 

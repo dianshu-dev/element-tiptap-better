@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: inline-block; vertical-align: middle;">
     <command-button
       :command="togglePreviewDialogVisible"
       :enable-tooltip="et.tooltip"

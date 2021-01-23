@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="editor"
+    ref="editorWrap"
     :style="elTiptapEditorStyle"
     :class="[{
       'el-tiptap-editor': true,
@@ -32,19 +33,7 @@
     </menu-bar>
 
     <div
-      v-if="isCodeViewMode"
-      :class="{
-        'el-tiptap-editor__codemirror': true,
-        'border-bottom-radius': isCodeViewMode,
-      }"
-    >
-      <textarea ref="cmTextArea"></textarea>
-    </div>
-
-    <!-- use v-show to keep history -->
-    <div
       ref="editorContentWrap"
-      v-show="!isCodeViewMode"
       :class="[{
       'el-tiptap-editor__zoom-wrap': true,
       'border-top-radius': !showMenubar,
@@ -78,11 +67,11 @@
         </div>
 
         <div class="el-tiptap-editor__zoom-tool">
-          <button @click="editorContentZoom('minus')">
+          <button @click="contentZoom('minus')">
             <i class="el-icon-minus"></i>
           </button>
-          <div class="zoom-value" @click="editorContentZoom('reset')">{{zoom}}%</div>
-          <button @click="editorContentZoom('plus')">
+          <div class="zoom-value" @click="contentZoom('reset')">{{zoom}}%</div>
+          <button @click="contentZoom('plus')">
             <i class="el-icon-plus"></i>
           </button>
         </div>
@@ -102,11 +91,12 @@ import { capitalize } from '@/utils/shared';
 import wordsCount from '@/utils/words_count';
 import { EVENTS } from '@/constants';
 import EditorStylesMixin from '@/mixins/EditorStylesMixin';
-import CodeViewMixin from '@/mixins/CodeViewMixin';
 import { Trans } from '@/i18n';
 
 import MenuBar from './MenuBar/index.vue';
 import MenuBubble from './MenuBubble/index.vue';
+// @ts-ignore
+import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
 
 const COMMON_EMIT_EVENTS: EVENTS[] = [
   EVENTS.TRANSACTION,
@@ -126,7 +116,7 @@ const COMMON_EMIT_EVENTS: EVENTS[] = [
   // https://github.com/kaorun343/vue-property-decorator/issues/277#issuecomment-558594655
   inject: [],
 })
-export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
+export default class ElTiptap extends Mixins(EditorStylesMixin) {
   @Prop({
     type: Array,
     default: () => [],
@@ -223,7 +213,8 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
   })
   readonly menuBubbleOptions!: Object;
 
-  @Ref('editorContentWrap') readonly wrapDom!: any;
+  @Ref('editorWrap') readonly editorWrapDom!: any;
+  @Ref('editorContentWrap') readonly contentWrapDom!: any;
   @Ref('editorContent') readonly contentDom!: any;
 
   editor: Editor | null = null;
@@ -269,7 +260,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
   }
 
   get showFooter (): boolean {
-    return this.charCounterCount && !this.isCodeViewMode;
+    return this.charCounterCount;
   }
 
   get spellcheckEnabled (): boolean {
@@ -327,13 +318,25 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
     this.$emit(this.genEvent(EVENTS.INIT), {
       editor: this.editor,
     });
+
+    this.$nextTick(() => {
+      addResizeListener(this.editorWrapDom, this.editorResize);
+    });
   }
 
   private beforeDestroy () {
+    if (this.editorResize) {
+      removeResizeListener(this.editorWrapDom, this.editorResize);
+    }
     if (this.editor) this.editor.destroy();
   }
 
-  private editorContentZoom (type: string) {
+  private editorResize () {
+    console.log('editor resize--------');
+    this.setContentDomSize(this.zoom);
+  }
+
+  private contentZoom (type: string) {
     let zoom = 0;
     if (type === 'plus') {
       zoom = this.zoom + 10;
@@ -344,17 +347,21 @@ export default class ElTiptap extends Mixins(EditorStylesMixin, CodeViewMixin) {
     } else {
       zoom = 100;
     }
-    if (!this.wrapDom || !this.contentDom) return;
-    const dom = this.contentDom.$el;
-    const width = 794 * (zoom / 100);
-    const height = dom.offsetHeight * (zoom / 100);
-    const left = (this.wrapDom.offsetWidth - 14 - width) / 2;
-    this.zoomLeft = left > 20 ? left - 20 + 'px' : '0';
-    this.zoomWidth = width + 'px';
-    this.zoomHeight = height + 'px';
+    this.setContentDomSize(zoom);
     this.$nextTick(() => {
       this.zoom = zoom;
     });
+  }
+
+  private setContentDomSize (zoom: number) {
+    if (!this.contentWrapDom || !this.contentDom) return;
+    const dom = this.contentDom.$el;
+    const width = 794 * (zoom / 100);
+    const height = dom.offsetHeight * (zoom / 100);
+    const left = (this.contentWrapDom.offsetWidth - 14 - width) / 2;
+    this.zoomLeft = left > 20 ? left - 20 + 'px' : '0';
+    this.zoomWidth = width + 'px';
+    this.zoomHeight = height + 'px';
   }
 
   private generateExtensions (): Array<Extension> {

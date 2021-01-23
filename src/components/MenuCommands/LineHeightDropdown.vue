@@ -2,6 +2,7 @@
   <el-dropdown
     placement="bottom"
     trigger="click"
+    style="vertical-align: middle;"
     @command="lineHeight => editorContext.commands.line_height({ lineHeight })"
   >
     <command-button

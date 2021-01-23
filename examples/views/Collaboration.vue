@@ -1,19 +1,18 @@
 <template>
-  <div>
-    <el-tiptap
-      :extensions="richAndToolsExtensions"
-      :content="content"
-      placeholder="Please input..."
-      style="height: 600px"
-      lang="zh"
-      @onInit="onInit"
-    />
-  </div>
+  <el-tiptap
+    :extensions="extensions"
+    :content="content"
+    placeholder="Please input..."
+    style="width: 80%; height: 600px"
+    lang="zh"
+    @onInit="onInit"
+  />
 </template>
 
 <script>
 import {
   Doc,
+  Title,
   Text,
   Paragraph,
   // text extensions
@@ -54,11 +53,8 @@ import {
   Search,
   History,
   MenuSplit,
-  Cursors,
   Collaboration,
 } from 'element-tiptap';
-
-// import randomColor from 'randomcolor';
 
 const io = require('socket.io-client');
 // const clientID =  localStorage.getItem('clientID') || String(Math.floor(Math.random() * 0xFFFFFFFF));
@@ -69,8 +65,9 @@ export default {
   name: 'Collaboration',
   data () {
     return {
-      richAndToolsExtensions: [
-        new Doc(),
+      extensions: [
+        new Doc({ title: true }),
+        new Title({ placeholder: 'Title' }),
         new Text(),
         new Paragraph(),
         new History(),
@@ -112,10 +109,9 @@ export default {
         new Fullscreen(),
         new Print(),
         new TrailingNode(),
-        new Cursors(),
         new Collaboration({
           version: 0,
-          debounce: 500,
+          debounce: 300,
           onUpdate: (data) => {
             console.log('push update', data);
             // if(!data.version) return;
@@ -177,17 +173,13 @@ export default {
         .on('cursorUpdate', data => {
           console.log('get cursorUpdate', data);
           this.editor.extensions.options.collaboration.updateCursors(data);
-          // this.editor.extensions.options.cursors.update(data);
-          this.setParticipants(data.participants);
+          this.participants = data.participants;
         });
 
       this.socket.emit('init', this.me);
     },
     setCount (count) {
       this.count = count;
-    },
-    setParticipants (participants) {
-      this.participants = participants;
     },
 
     getDisplayColor (str) {

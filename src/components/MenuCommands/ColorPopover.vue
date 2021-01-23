@@ -1,49 +1,51 @@
 <template>
   <el-tooltip effect="dark" :content="tooltip" placement="top">
     <div class="el-tiptap-color-popover">
-      <div class="color_btn" @mousedown.prevent @click="confirmColor(lastColor)">
-        <div>
-          <div class="color_icon" style="background: #ddd">A</div>
-          <div class="color_block" :style="{background: lastColor}"></div>
+      <div class="color_btn_wrap">
+        <div class="color_btn" @mousedown.prevent @click="confirmColor(lastColor)">
+          <div>
+            <div class="color_icon" style="background: #ddd">A</div>
+            <div class="color_block" :style="{background: lastColor}"></div>
+          </div>
         </div>
+        <el-popover
+          v-model="popoverVisible"
+          :disabled="et.isCodeViewMode"
+          placement="bottom"
+          trigger="click"
+          popper-class="el-tiptap-popper">
+
+          <div class="color-set">
+            <div
+              v-for="color in colorSet"
+              :key="color"
+              class="color__wrapper">
+              <div
+                :style="{ backgroundColor: color }"
+                :class="{ 'color--selected': selectedColor === color }"
+                class="color"
+                @mousedown.prevent
+                @click.stop="confirmColor(color)">
+              </div>
+            </div>
+            <div class="color__wrapper">
+              <div
+                class="color color--remove"
+                @mousedown.prevent
+                @click.stop="confirmColor('')">
+              </div>
+            </div>
+          </div>
+
+          <div class="color-hex">
+            <input type="color" v-model="lastColor" @click.stop @change="confirmColor($event.target.value)"/>
+          </div>
+
+          <div class="color_more_btn" slot="reference">
+            <i class="el-icon-caret-bottom" style="color: #999"></i>
+          </div>
+        </el-popover>
       </div>
-      <el-popover
-        v-model="popoverVisible"
-        :disabled="et.isCodeViewMode"
-        placement="bottom"
-        trigger="click"
-        popper-class="el-tiptap-popper">
-
-        <div class="color-set">
-          <div
-            v-for="color in colorSet"
-            :key="color"
-            class="color__wrapper">
-            <div
-              :style="{ backgroundColor: color }"
-              :class="{ 'color--selected': selectedColor === color }"
-              class="color"
-              @mousedown.prevent
-              @click.stop="confirmColor(color)">
-            </div>
-          </div>
-          <div class="color__wrapper">
-            <div
-              class="color color--remove"
-              @mousedown.prevent
-              @click.stop="confirmColor('')">
-            </div>
-          </div>
-        </div>
-
-        <div class="color-hex">
-          <input type="color" v-model="lastColor" @click.stop @change="confirmColor($event.target.value)"/>
-        </div>
-
-        <div class="color_more_btn" slot="reference">
-          <i class="el-icon-caret-bottom" style="color: #999"></i>
-        </div>
-      </el-popover>
     </div>
   </el-tooltip>
 </template>
@@ -121,58 +123,65 @@ export default class ColorPopover extends Vue {
 
 <style lang="scss" scoped>
   .el-tiptap-color-popover {
-    width: 40px;
+    width: 44px;
     height: 29px;
     margin: 1px;
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    vertical-align: middle;
     border-radius: 4px;
     outline: none;
 
     &:hover {
       background: #e4e9f2;
 
-      .color_more_btn {
+      .color_btn_wrap .color_more_btn {
         border-left: 1px solid #ccc;
       }
     }
 
-    .color_btn {
-      flex: 1;
+    .color_btn_wrap {
       height: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #666;
-      cursor: pointer;
+      justify-content: center;
 
-      .color_icon {
-        width: 15px;
-        height: 13px;
-        line-height: 14px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: bold;
-        margin: 0 auto 1px;
+      .color_btn {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        cursor: pointer;
+
+        .color_icon {
+          width: 15px;
+          height: 14px;
+          line-height: 15px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: bold;
+          margin: 1px auto 2px;
+        }
+
+        .color_block {
+          width: 17px;
+          height: 3px;
+          margin: 0 auto;
+        }
       }
 
-      .color_block {
-        width: 17px;
-        height: 3px;
-        margin: 0 auto;
+      .color_more_btn {
+        width: 16px;
+        height: 29px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        box-sizing: border-box;
+        position: relative;
+        cursor: pointer;
       }
-    }
-
-    .color_more_btn {
-      width: 16px;
-      height: 29px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid transparent;
-      box-sizing: border-box;
-      position: relative;
-      cursor: pointer;
     }
   }
 </style>

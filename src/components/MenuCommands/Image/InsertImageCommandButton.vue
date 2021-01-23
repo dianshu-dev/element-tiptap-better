@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: inline-block">
     <el-popover
       :disabled="et.isCodeViewMode"
       placement="bottom"

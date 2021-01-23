@@ -62,17 +62,10 @@ import {
   Print,
   Search,
   History,
-  CodeView,
   CodeBlockHighlight,
   DragItem,
   MenuSplit,
 } from 'element-tiptap';
-
-import codemirror from 'codemirror';
-import 'codemirror/lib/codemirror.css'; // import base style
-import 'codemirror/mode/xml/xml.js'; // language
-import 'codemirror/addon/selection/active-line.js'; // require active-line.js
-import 'codemirror/addon/edit/closetag.js'; // autoCloseTags
 
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
@@ -160,13 +153,6 @@ export default {
           languages: {
             javascript,
             css,
-          },
-        }),
-        new CodeView({
-          codemirror,
-          codemirrorOptions: {
-            styleActiveLine: true,
-            autoCloseTags: true,
           },
         }),
         new TrailingNode(),

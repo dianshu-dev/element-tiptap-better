@@ -23,6 +23,7 @@
 <script>
 import {
   Doc,
+  Title,
   Text,
   Paragraph,
   Heading,
@@ -47,7 +48,8 @@ export default {
   data () {
     return {
       extensions: [
-        new Doc(),
+        new Doc({ title: true }),
+        new Title({ placeholder: 'Title' }),
         new Text(),
         new Paragraph(),
         new Heading({ level: 3 }),
@@ -68,7 +70,7 @@ export default {
         new History(),
       ],
 
-      content: '<p>The <code>output</code> prop: <strong>HTML or JSON</strong></p>',
+      content: '',
 
       output: {
         json: 'Update content to see changes',

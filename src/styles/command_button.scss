@@ -4,28 +4,36 @@
   $editor: &;
 
   &__menu-split {
+    display: inline-block;
     margin: auto 4px;
     width: 1px;
     height: 18px;
     background: #ddd;
+    vertical-align: middle;
   }
 
   &__command-button {
-    border: 1px solid transparent;
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    margin: 1px;
     box-sizing: border-box;
-    align-items: center;
+    border: 1px solid transparent;
     border-radius: 4px;
     color: $primary-text-color;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    height: 29px;
-    margin: 1px;
     outline: 0;
     //transition: all .2s ease-in-out;
-    width: 29px;
-    position: relative;
     font-size: 14px;
+    position: relative;
+    vertical-align: middle;
+
+    .command-icon-wrap {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     &:hover {
       background-color: darken($light-background-color, 5%);

@@ -2,6 +2,7 @@
   <el-dropdown
     placement="bottom"
     trigger="click"
+    style="vertical-align: middle;"
     @command="toggleTextAlign">
 
     <el-tooltip effect="dark" :content="et.t('editor.extensions.TextAlign.tooltip')" placement="top">
