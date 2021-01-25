@@ -138,6 +138,7 @@ export default {
   .x-color-picker__wrapper {
     li {
       list-style: none;
+      box-sizing: border-box;
     }
     &:not(:first-of-type) {
       margin-top: 10px;
@@ -145,14 +146,22 @@ export default {
   }
 
   .x-color-picker__title {
+    margin: 0;
     font-size: 14px;
     text-align: left;
     user-select: none;
     color: #555;
   }
 
+  .x-color-picker__list {
+    margin: 0;
+    padding: 0;
+  }
+
   .x-color-picker__children {
     display: flex;
+    margin: 0;
+    padding: 0;
   }
 
   .x-color-picker__children-item {

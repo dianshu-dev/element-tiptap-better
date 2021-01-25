@@ -16,7 +16,7 @@ export default class Collaboration extends Extension {
         focused: false,
         displayName: '',
         displayColor: '',
-        thumbnail: '',
+        avatar: '',
       },
       clientID: '',
       debounce: 250,

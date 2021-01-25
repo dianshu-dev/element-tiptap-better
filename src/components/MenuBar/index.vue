@@ -108,12 +108,12 @@ export default class Menubar extends Vue {
   private menuResize (): void {
     console.log('menu resize-------');
     let index: any = null;
-    const defaultListWidth = this.defaultListDom.offsetWidth;
-    if (!defaultListWidth || !this.offsetArray.length) return;
+    const menuBarWidth = this.menuBarWrapDom.offsetWidth;
+    if (!menuBarWidth || !this.offsetArray.length) return;
 
     for (let i = 0; i < this.offsetArray.length; i++) {
       const item = this.offsetArray[i];
-      if (item.offsetLeft + item.offsetWidth > defaultListWidth) {
+      if (item.offsetLeft + item.offsetWidth > menuBarWidth - 42) {
         index = i;
         break;
       }

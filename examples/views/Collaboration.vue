@@ -128,7 +128,7 @@ export default {
         focused: false,
         displayName: '用户' + (Math.random() * 1000).toFixed(0),
         displayColor: '',
-        thumbnail: '',
+        avatar: '',
       },
       content: '',
       editor: null,

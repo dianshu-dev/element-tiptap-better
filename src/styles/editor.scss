@@ -62,12 +62,12 @@
     border: 1px solid $lighter-border-color;
     border-bottom: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     white-space: nowrap;
     position: relative;
 
     .menu-default-list {
-      width: calc(100% - 42px);
+      //width: calc(100% - 42px);
       display: inline-block;
       white-space: nowrap;
       padding: 5px;
@@ -76,6 +76,11 @@
     }
 
     .menu-more-list {
+      position: absolute !important;
+      top: unset !important;
+      left: unset !important;
+      right: 0;
+      bottom: -36px;
       margin: -2px 0 0 !important;
       min-width: unset !important;
       background: white;
