@@ -11,7 +11,7 @@
     <el-tooltip effect="dark" :content="et.t('editor.extensions.Heading.tooltip')" placement="top">
       <div class="heading_menu_btn">
         <span class="heading_name" :title="heading">{{heading}}</span>
-        <i class="el-icon-caret-bottom" style="margin-left: 2px"></i>
+        <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #bbb"></i>
       </div>
     </el-tooltip>
 
@@ -100,7 +100,7 @@ export default class HeadingDropdown extends Vue {
   .heading_menu_btn {
     width: 70px;
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     padding: 0 2px 0 5px;
     display: flex;
     justify-content: space-between;

@@ -42,7 +42,7 @@
           </div>
 
           <div class="color_more_btn" slot="reference">
-            <i class="el-icon-caret-bottom" style="color: #999"></i>
+            <i class="el-icon-caret-bottom" style="color: #bbb"></i>
           </div>
         </el-popover>
       </div>
@@ -125,7 +125,7 @@ export default class ColorPopover extends Vue {
   .el-tiptap-color-popover {
     width: 44px;
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     display: inline-block;
     vertical-align: middle;
     border-radius: 4px;

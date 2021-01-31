@@ -11,7 +11,7 @@
         <span class="font_type_name" :title="activeFontType">
           {{activeFontType || this.et.t('editor.extensions.FontType.default')}}
         </span>
-        <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #999"></i>
+        <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #bbb"></i>
       </div>
     </el-tooltip>
 
@@ -99,7 +99,7 @@ export default class FontTypeDropdown extends Vue {
   .font_type_menu_btn {
     width: 82px;
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     padding: 0 4px 0 5px;
     display: flex;
     justify-content: space-between;

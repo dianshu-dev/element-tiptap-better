@@ -126,6 +126,9 @@ export default class ImageView extends Vue {
     height: 0,
   };
 
+  // 图片比例
+  proportion = 0;
+
   resizeOb = new ResizeObserver(() => {
     this.getMaxSize();
   });
@@ -182,6 +185,7 @@ export default class ImageView extends Vue {
       width: result.width,
       height: result.height,
     };
+    this.proportion = result.width / result.height;
   }
 
   private mounted () {
@@ -257,10 +261,9 @@ export default class ImageView extends Vue {
     const dx = (e.clientX - x) * (/l/.test(dir) ? -1 : 1);
     const dy = (e.clientY - y) * (/t/.test(dir) ? -1 : 1);
 
-    this.updateAttrs({
-      width: clamp(w + dx, MIN_SIZE, this.maxSize.width),
-      height: Math.max(h + dy, MIN_SIZE),
-    });
+    const width = clamp(w + dx, MIN_SIZE, this.maxSize.width);
+    const height = e.shiftKey ? width / this.proportion : Math.max(h + dy, MIN_SIZE);
+    this.updateAttrs({ width, height });
   }
 
   private onMouseUp (e: MouseEvent): void {

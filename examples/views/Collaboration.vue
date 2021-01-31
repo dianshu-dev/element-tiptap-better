@@ -12,7 +12,6 @@
 <script>
 import {
   Doc,
-  Title,
   Text,
   Paragraph,
   // text extensions
@@ -66,8 +65,7 @@ export default {
   data () {
     return {
       extensions: [
-        new Doc({ title: true }),
-        new Title({ placeholder: 'Title' }),
+        new Doc(),
         new Text(),
         new Paragraph(),
         new History(),
@@ -148,8 +146,8 @@ export default {
     },
 
     initSocket () {
-      this.socket = io('ws://localhost:7002/doc?room_id=1853959866155008&user_id=1');
-      // this.socket = io('ws://localhost:3000/doc-99?room_id=1853959866155008&user_id=1');
+      this.socket = io('ws://localhost:7002/doc?room_id=1853959866155008');
+      // this.socket = io('ws://localhost:3000/doc-99?room_id=1853959866155008');
       this.socket.on('connect', () => {
         console.log('get connect');
         this.editor.unregisterPlugin('collab');

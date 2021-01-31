@@ -14,6 +14,7 @@
 
       <div class="command-icon-wrap">
         <v-icon :name="icon"/>
+        <slot/>
       </div>
     </div>
   </el-tooltip>

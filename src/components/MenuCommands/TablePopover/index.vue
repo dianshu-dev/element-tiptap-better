@@ -105,12 +105,14 @@
 
     <command-button
       slot="reference"
+      style="width: auto; padding: 0 2px 0 6px;"
       :is-active="isTableActive"
       :enable-tooltip="et.tooltip"
       :tooltip="et.t('editor.extensions.Table.tooltip')"
       :readonly="et.isCodeViewMode"
-      icon="table"
-    />
+      icon="table">
+      <i class="el-icon-caret-bottom" style="color: #bbb; margin-left: 2px"></i>
+    </command-button>
   </el-popover>
 </template>
 

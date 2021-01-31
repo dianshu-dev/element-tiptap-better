@@ -1,6 +1,6 @@
 // @ts-ignore
 import { getMarkAttrs } from 'tiptap-utils';
-import { Transaction, TextSelection, AllSelection, EditorState } from 'prosemirror-state';
+import { Transaction, TextSelection, EditorState } from 'prosemirror-state';
 import { Mark as ProsemirrorMark, MarkType } from 'prosemirror-model';
 import applyMark from './apply_mark';
 
@@ -28,23 +28,24 @@ export const DEFAULT_FONT_SIZES = [
 
 export const DEFAULT_FONT_SIZE = '11';
 
-const SIZE_PATTERN = /([\d.]+)pt/i;
+const SIZE_PATTERN = /([\d.]+)(px|pt)/i;
 
 export function convertToPT (styleValue: string): string {
   const matches = styleValue.match(SIZE_PATTERN);
   if (!matches) return '';
   const value = matches[1];
   if (!value) return '';
+  if (matches[2] === 'px') {
+    return `${parseFloat((Number(value) * 0.75).toFixed(2))}`;
+  }
   return value;
 }
 
 export function setFontSize (tr: Transaction, type: MarkType, fontSize: string): Transaction {
   const { selection } = tr;
-
-  if (!(selection instanceof TextSelection || selection instanceof AllSelection)) {
+  if (!selection) {
     return tr;
   }
-
   const attrs = (fontSize && fontSize !== DEFAULT_FONT_SIZE) ? { pt: fontSize } : null;
   tr = applyMark(tr, type, attrs);
   return tr;

@@ -8,7 +8,7 @@
     <el-tooltip effect="dark" :content="et.t('editor.extensions.TextAlign.tooltip')" placement="top">
       <div class="text_align_menu_btn">
         <v-icon :name="`align-${activeTextAlign}`"/>
-        <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #999"></i>
+        <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #bbb"></i>
       </div>
     </el-tooltip>
 
@@ -79,7 +79,7 @@ export default class TextAlignDropdown extends Vue {
 <style scoped>
   .text_align_menu_btn {
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     padding: 0 4px 0 6px;
     display: flex;
     justify-content: center;

@@ -1,4 +1,4 @@
-import { TextSelection, AllSelection, EditorState, Transaction } from 'prosemirror-state';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { Node as ProsemirrorNode, NodeType } from 'prosemirror-model';
 import { CommandFunction } from 'tiptap-commands';
 import { LINE_HEIGHT_100, DEFAULT_LINE_HEIGHT } from '@/constants';
@@ -77,7 +77,7 @@ export function setTextLineHeight (tr: Transaction, lineHeight: string | null): 
 
   if (!selection || !doc) return tr;
 
-  if (!(selection instanceof TextSelection || selection instanceof AllSelection)) {
+  if (!selection) {
     return tr;
   }
 

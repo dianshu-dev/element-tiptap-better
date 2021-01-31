@@ -313,6 +313,8 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
       ...eventOptions,
       content: this.content,
       onUpdate: this.onUpdate.bind(this),
+      onPaste: this.onPaste.bind(this),
+      onDrop: this.onDrop.bind(this),
     });
 
     this.$emit(this.genEvent(EVENTS.INIT), {
@@ -322,6 +324,14 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
     this.$nextTick(() => {
       addResizeListener(this.editorWrapDom, this.editorResize);
     });
+  }
+
+  private onPaste (...args: any) {
+    this.$emit(this.genEvent(EVENTS.PASTE), ...args);
+  }
+
+  private onDrop (...args: any) {
+    this.$emit(this.genEvent(EVENTS.DROP), ...args);
   }
 
   private beforeDestroy () {

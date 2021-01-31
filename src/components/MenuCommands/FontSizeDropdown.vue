@@ -8,7 +8,7 @@
     <el-tooltip effect="dark" :content="et.t('editor.extensions.FontSize.tooltip')" placement="top">
       <div class="font_size_menu_btn">
         <span style="font-size: 15px;font-weight: 500">{{activeFontSize}}</span>
-        <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #999"></i>
+        <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #bbb"></i>
       </div>
     </el-tooltip>
 
@@ -81,7 +81,7 @@ export default class FontSizeDropdown extends Vue {
   .font_size_menu_btn {
     width: 44px;
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     display: flex;
     justify-content: center;
     align-items: center;

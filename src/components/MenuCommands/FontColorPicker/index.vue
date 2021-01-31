@@ -21,7 +21,7 @@
         </div>
 
         <div slot="reference" class="color_more_btn" @mousedown.prevent>
-          <i class="el-icon-caret-bottom" style="color: #999"></i>
+          <i class="el-icon-caret-bottom" style="color: #bbb"></i>
         </div>
       </el-popover>
     </div>
@@ -75,7 +75,7 @@ export default {
   .el-tiptap-color-picker {
     width: 44px;
     height: 29px;
-    margin: 1px;
+    /*margin: 1px;*/
     display: inline-block;
     vertical-align: middle;
     border-radius: 4px;

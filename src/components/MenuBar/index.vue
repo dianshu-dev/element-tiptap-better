@@ -19,7 +19,9 @@
               :readonly="et.isCodeViewMode"
               v-on="spec.componentEvents"
             />
-            <div v-else :key="'command-button' + i" class="el-tiptap-editor__menu-split"></div>
+            <div v-else :key="'command-button' + i" class="el-tiptap-editor__menu-split">
+              <div class="menu-split-line"></div>
+            </div>
           </template>
         </div>
 
@@ -42,15 +44,14 @@
               :readonly="et.isCodeViewMode"
               v-on="spec.componentEvents"
             />
-            <div v-else :key="'command-button-more' + i" class="el-tiptap-editor__menu-split"></div>
+            <div v-else :key="'command-button-more' + i" class="el-tiptap-editor__menu-split">
+              <div class="menu-split-line"></div>
+            </div>
           </template>
 
-          <div slot="reference" style="padding: 5px">
-            <div class="el-tiptap-editor__menu-split" style="margin: 0"></div>
-            <div class="el-tiptap-editor__command-button">
-              <div class="command-icon-wrap">
-                <i class="el-icon-more"></i>
-              </div>
+          <div slot="reference" class="el-tiptap-editor__command-button">
+            <div class="command-icon-wrap">
+              <i class="el-icon-more"></i>
             </div>
           </div>
         </el-popover>
@@ -92,8 +93,9 @@ export default class Menubar extends Vue {
 
   private mounted (): void {
     this.$nextTick(() => {
+      const listLeft = this.defaultListDom.offsetLeft;
       this.defaultListDom.children.forEach((item: any) => {
-        this.offsetArray.push({ offsetLeft: item.offsetLeft, offsetWidth: item.offsetWidth });
+        this.offsetArray.push({ position: item.offsetLeft + item.offsetWidth - listLeft });
       });
       addResizeListener(this.menuBarWrapDom, this.menuResize);
     });
@@ -106,19 +108,16 @@ export default class Menubar extends Vue {
   }
 
   private menuResize (): void {
-    console.log('menu resize-------');
-    let index: any = null;
     const menuBarWidth = this.menuBarWrapDom.offsetWidth;
     if (!menuBarWidth || !this.offsetArray.length) return;
-
+    let index: any = null;
     for (let i = 0; i < this.offsetArray.length; i++) {
       const item = this.offsetArray[i];
-      if (item.offsetLeft + item.offsetWidth > menuBarWidth - 42) {
+      if (item.position >= menuBarWidth - 42) {
         index = i;
         break;
       }
     }
-    console.log(index, 'buttonSplit index');
     this.buttonSplit = index;
   }
 

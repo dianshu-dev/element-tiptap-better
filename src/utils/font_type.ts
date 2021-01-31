@@ -1,6 +1,6 @@
 // @ts-ignore
 import { getMarkAttrs } from 'tiptap-utils';
-import { Transaction, TextSelection, AllSelection, EditorState } from 'prosemirror-state';
+import { Transaction, TextSelection, EditorState } from 'prosemirror-state';
 import { Mark as ProsemirrorMark, MarkType } from 'prosemirror-model';
 import applyMark from './apply_mark';
 
@@ -29,7 +29,7 @@ export const DEFAULT_FONT_TYPE_MAP = DEFAULT_FONT_TYPE_NAMES.reduce((obj: any, t
 export function setFontType (tr: Transaction, type: MarkType, name: string): Transaction {
   const { selection } = tr;
 
-  if (!(selection instanceof TextSelection || selection instanceof AllSelection)) {
+  if (!selection) {
     return tr;
   }
   const attrs = name ? { name } : null;

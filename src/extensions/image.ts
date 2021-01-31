@@ -1,9 +1,11 @@
 // @ts-nocheck
 import { Node as ProsemirrorNode, DOMOutputSpec } from 'prosemirror-model';
+import { Plugin } from 'prosemirror-state';
 import { Image as TiptapImage } from 'tiptap-extensions';
 import { MenuData } from 'tiptap';
 import { MenuBtnView } from '@/../types';
 import { ImageDisplay } from '@/utils/image';
+import { readFileDataUrl } from '@/utils/shared';
 import { DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_DISPLAY, DEFAULT_IMAGE_URL_REGEX } from '@/constants';
 import InsertImageCommandButton from '@/components/MenuCommands/Image/InsertImageCommandButton.vue';
 import ImageView from '@/components/ExtensionViews/ImageView.vue';
@@ -81,7 +83,7 @@ export default class Image extends TiptapImage implements MenuBtnView {
         width: {
           default: this.imageDefaultWidth > 0
             ? this.imageDefaultWidth
-            : DEFAULT_IMAGE_WIDTH,
+            : null,
         },
         height: {
           default: null,
@@ -101,6 +103,34 @@ export default class Image extends TiptapImage implements MenuBtnView {
 
   get view () {
     return ImageView;
+  }
+
+  get plugins () {
+    return [
+      new Plugin({
+        props: {
+          handleDOMEvents: {
+            paste: (view, event) => {
+              const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+              items.forEach(async item => {
+                const { schema } = view.state;
+                const file = item.getAsFile();
+                // Return here, otherwise copying texts won't possible anymore
+                if (!file || !file.type.includes('image')) {
+                  return;
+                }
+                event.preventDefault();
+
+                const url = await (this.options.uploadRequest ? this.options.uploadRequest(file) : readFileDataUrl(file));
+                const node = schema.nodes.image.create({ src: url });
+                const transaction = view.state.tr.replaceSelectionWith(node);
+                view.dispatch(transaction);
+              });
+            }
+          },
+        },
+      })
+    ];
   }
 
   menuBtnView (editorContext: MenuData) {
