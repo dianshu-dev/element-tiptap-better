@@ -41,3 +41,5 @@ export class SelectAll {}
 export class Search {}
 export class MenuSplit {}
 export class Collaboration {}
+export class Cursors {}
+export class Drop {}

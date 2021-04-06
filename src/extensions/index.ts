@@ -51,4 +51,6 @@ export { default as Preview } from './preview';
 export { default as Search } from './search';
 export { default as SelectAll } from './select_all';
 export { default as Collaboration } from './collaboration';
+export { default as Cursors } from './cursors';
 export { default as MenuSplit } from './menu_split';
+export { default as Drop } from './drop';

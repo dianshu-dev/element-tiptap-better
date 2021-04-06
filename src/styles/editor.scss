@@ -1,5 +1,46 @@
 @import './variables.scss';
 
+.draggable-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  cursor: grab;
+
+  .draggable-icon{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 46px;
+    border-radius: 4px;
+    text-align: center;
+    color: #333;
+
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+
+  .draggable-content {
+    flex: 1;
+    display: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 6px;
+    margin-right: 72px;
+    z-index: -1;
+
+    >* {
+      margin: 0;
+    }
+  }
+
+  .draggable-highlight {
+    display: block;
+    background-color: rgba(222, 239, 253, 0.8);
+  }
+}
+
 .el-tiptap-editor {
   $root: &;
 
@@ -181,7 +222,7 @@
   }
 
   &__content {
-    position: absolute;
+    position: relative;
     width: 794px;
     min-height: 1123px;
     border: 1px solid $lighter-border-color;
@@ -197,10 +238,20 @@
     line-height: 1.4;
     //transition: transform 0.3s ease 0s;
 
+    >div:not(:first-child):last-child {
+      height: 2px !important;
+      background: #409eff !important;
+    }
+
     .ProseMirror {
       min-height: 1123px;
       padding: 72px;
       box-sizing: border-box;
+      outline: 0;
+
+      >* {
+        position: relative;
+      }
     }
 
     .find {
@@ -209,6 +260,17 @@
 
     .find-current {
       background: #f1b900;
+    }
+
+    .drag-icon {
+      position: absolute;
+      top: 0;
+      left: -20px;
+      width: 20px;
+      height: 20px;
+      color: #999;
+      text-align: center;
+      z-index: 10000;
     }
 
     .cursor-wrap {
@@ -226,6 +288,7 @@
       }
 
       .cursor-name {
+        display: none;
         position: absolute;
         top: -20px;
         left: -1px;
@@ -245,6 +308,10 @@
         -ms-user-select: none;
         z-index: 1;
       }
+
+      &:hover .cursor-name {
+        display: block;
+      }
     }
 
     .cursor-wrap.me {
@@ -253,6 +320,12 @@
 
     .cursor-wrap.inactive {
       opacity: 0.5;
+    }
+
+    .selection:hover + div {
+      .cursor-name {
+        display: block !important;
+      }
     }
 
     p {
@@ -288,6 +361,10 @@
       padding-bottom: 5px;
       padding-left: 0;
       padding-top: 5px;
+
+      &::before {
+        left: -50px !important;
+      }
     }
 
     li > p {
@@ -399,14 +476,14 @@
       display: inline-block;
       float: none;
       line-height: 0;
-      margin: 12px 0;
+      margin: 0;
       max-width: 100%;
       user-select: none;
       vertical-align: baseline;
 
       &--inline {
-        margin-left: 12px;
-        margin-right: 12px;
+        margin-left: 0;
+        margin-right: 0;
       }
 
       &--block {
@@ -507,12 +584,17 @@
     }
 
     ul[data-type=todo_list] {
-      margin-left: 5px;
+      margin-left: 0;
+
+      &::before {
+        left: 45px !important;
+      }
 
       .todo-item {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        align-items: center;
         margin-bottom: 0;
 
         &[data-text-align=right] {
@@ -528,11 +610,9 @@
         }
 
         .todo-content {
-          padding-left: 10px;
+          padding-left: 5px;
 
           > p {
-            font-size: 16px;
-
             &:last-of-type {
               margin-bottom: 0;
             }
@@ -637,10 +717,6 @@
     font-size: 14px;
     justify-content: space-between;
     padding: 0 8px;
-  }
-
-  .ProseMirror {
-    outline: 0;
   }
 
   &__placeholder {

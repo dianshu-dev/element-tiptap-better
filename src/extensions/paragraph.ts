@@ -124,7 +124,10 @@ export default class Paragraph extends TiptapParagraph {
 
   keys () {
     return {
-      Enter (state: any, dispatch: any, view: any) {
+      Enter: (state: any, dispatch: any, view: any) => {
+        if (this.editor.isActive.list_item() || this.editor.isActive.todo_item()) {
+          return false;
+        }
         chainCommands(
           newlineInCode,
           createParagraphNear,

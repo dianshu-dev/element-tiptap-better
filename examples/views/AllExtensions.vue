@@ -65,6 +65,7 @@ import {
   CodeBlockHighlight,
   DragItem,
   MenuSplit,
+  Drop,
 } from 'element-tiptap';
 
 import javascript from 'highlight.js/lib/languages/javascript';
@@ -156,6 +157,7 @@ export default {
           },
         }),
         new TrailingNode(),
+        new Drop(),
       ],
       content: `<h2>
         Drag Handle

@@ -19,32 +19,35 @@
     display: inline-block;
     width: 29px;
     height: 29px;
-    //margin: 1px;
-    box-sizing: border-box;
     border: 1px solid transparent;
-    border-radius: 4px;
+    box-sizing: border-box;
     color: $primary-text-color;
     cursor: pointer;
     outline: 0;
-    //transition: all .2s ease-in-out;
     font-size: 14px;
     position: relative;
     vertical-align: middle;
 
     .command-icon-wrap {
       height: 100%;
+      border-radius: 3px;
+      box-sizing: border-box;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     &:hover {
-      background-color: darken($light-background-color, 5%);
+      .command-icon-wrap {
+        background-color: darken($light-background-color, 5%);
+      }
     }
 
     &--active {
-      background-color: $extra-light-primary-color;
-      color: $primary-color;
+      .command-icon-wrap {
+        background-color: $extra-light-primary-color;
+        color: $primary-color;
+      }
     }
 
     &--readonly {
