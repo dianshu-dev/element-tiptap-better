@@ -24,18 +24,16 @@ export default class Cursors extends Extension {
   }
 
   getDecorations ({ doc, selections }: any) {
-    // const userID = this.options.userID;
+    const userID = this.options.userID;
     const decorations = selections
-      .filter((v: any) => v.userID && v.from && v.to && v.name && v.color)
+      .filter((v: any) => v.userID !== userID && v.from && v.to && v.name && v.color)
       .map((selection: any) => {
         const decors = [];
         const { from, to, name, color } = selection;
         const dom: any = document.createElement('div');
+        dom.className = `cursor-wrap client-${selection.clientID}`;
 
-        const className = `cursor-wrap client-${selection.clientID}`;
         const style = `style="background: ${color}"`;
-
-        dom.className = className;
         dom.innerHTML = `<div class="cursor" ${style}></div><div class="cursor-name" ${style}>${name}</div>`;
         decors.push(Decoration.widget(to, dom));
 
