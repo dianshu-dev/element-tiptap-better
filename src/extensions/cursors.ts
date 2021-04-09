@@ -9,9 +9,15 @@ export default class Cursors extends Extension {
 
   get defaultOptions () {
     return {
+      enable: true,
       userID: 0,
-      showName: false,
+      changeEnable: (value: boolean) => {
+        this.options.enable = value;
+      },
       update: (selections: any) => {
+        if (!this.options.enable) {
+          return;
+        }
         const { tr } = this.editor.state;
         this.selections = selections;
         const transaction = tr
@@ -25,13 +31,14 @@ export default class Cursors extends Extension {
 
   getDecorations ({ doc, selections }: any) {
     const userID = this.options.userID;
+    const { clientID } = this.editor.extensions.options.collaboration;
     const decorations = selections
-      .filter((v: any) => v.userID !== userID && v.from && v.to && v.name && v.color)
+      .filter((v: any) => v.clientID !== clientID && v.userID !== userID && v.from && v.to && v.name && v.color)
       .map((selection: any) => {
         const decors = [];
-        const { from, to, name, color } = selection;
+        const { from, to, name, color, clientID } = selection;
         const dom: any = document.createElement('div');
-        dom.className = `cursor-wrap client-${selection.clientID}`;
+        dom.className = `cursor-wrap client-${clientID}`;
 
         const style = `style="background: ${color}"`;
         dom.innerHTML = `<div class="cursor" ${style}></div><div class="cursor-name" ${style}>${name}</div>`;
@@ -40,7 +47,7 @@ export default class Cursors extends Extension {
         if (from !== to) {
           decors.push(Decoration.inline(from, to, {
             nodeName: 'span',
-            class: `selection client-${selection.clientID}`,
+            class: `selection client-${clientID}`,
             style: `background-color: ${color}32`,
           }));
         }

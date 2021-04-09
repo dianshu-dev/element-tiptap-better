@@ -167,7 +167,7 @@ export default {
     },
 
     initSocket () {
-      this.socket = io('ws://localhost:7002/doc?room_id=1853959866155008', {
+      this.socket = io('ws://127.0.0.1:7002/doc?room_id=1853959866155008', {
         path: '/socket'
       });
       this.socket.on('connect', () => {

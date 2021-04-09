@@ -10,6 +10,7 @@ export default class Collaboration extends Extension {
 
   get defaultOptions () {
     return {
+      enable: true,
       clientID: String(Math.floor(Math.random() * 0xFFFFFFFF)),
       debounce: 250,
       keepFocusOnBlur: false,
@@ -18,6 +19,9 @@ export default class Collaboration extends Extension {
       onUpdateSelection: () => {
       },
       onLocalSelection: () => {
+      },
+      changeEnable: (value: boolean) => {
+        this.options.enable = value;
       },
       registerPlugin: (version: number, clientID: string) => {
         console.log('registerPlugin');
@@ -30,6 +34,9 @@ export default class Collaboration extends Extension {
         this.initDone = true;
       },
       update: ({ steps, version }: any) => {
+        if (!this.options.enable) {
+          return;
+        }
         const { state, view, schema } = this.editor;
         if (getVersion(state) > version) {
           return;
@@ -67,7 +74,7 @@ export default class Collaboration extends Extension {
     }, this.options.debounce);
 
     this.editor.on('transaction', ({ state, transaction }: any) => {
-      if (this.initDone) {
+      if (this.options.enable && this.initDone) {
         this.getSendableSteps(state, transaction);
       }
     });

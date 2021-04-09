@@ -86,6 +86,7 @@ declare module 'tiptap' {
   interface EditorOptions {
     editorProps?: EditorProps;
     editable?: boolean;
+    composing?: boolean;
     autoFocus?: boolean;
     extensions?: (Extension | Node | Mark)[];
     content?: Object | string;
