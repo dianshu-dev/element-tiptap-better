@@ -65,6 +65,7 @@ import {
   CodeBlockHighlight,
   DragItem,
   MenuSplit,
+  Preview,
   Drop,
 } from 'element-tiptap';
 
@@ -157,6 +158,7 @@ export default {
           },
         }),
         new TrailingNode(),
+        new Preview(),
         new Drop(),
       ],
       content: `<h2>

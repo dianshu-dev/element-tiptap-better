@@ -5,17 +5,19 @@
       :enable-tooltip="et.tooltip"
       :tooltip="et.t('editor.extensions.Preview.tooltip')"
       :readonly="et.isCodeViewMode"
-      icon="eye"
+      icon="tv"
     />
 
     <el-dialog
-      :title="et.t('editor.extensions.Preview.dialog.title')"
       :visible.sync="previewDialogVisible"
-      :width="contentWidth"
+      :modal="false"
+      :fullscreen="true"
+      :show-close="false"
       :append-to-body="true"
+      :lock-scroll="true"
     >
-      <div class="el-tiptap-editor__content">
-        <div v-html="html"></div>
+      <div class="el-tiptap-editor__content el-tiptap-editor__preview">
+        <div v-html="html" class="ProseMirror" :style="{ zoom: zoom }"></div>
       </div>
     </el-dialog>
   </div>
@@ -51,6 +53,7 @@ export default class PreviewCommandButton extends Vue {
 
   html: string = '';
   previewDialogVisible: boolean = false;
+  zoom: number = 1;
 
   @Watch('previewDialogVisible')
   onVisibleChange (visible: boolean) {
@@ -58,11 +61,50 @@ export default class PreviewCommandButton extends Vue {
   }
 
   togglePreviewDialogVisible () {
-    this.previewDialogVisible = !this.previewDialogVisible;
+    this.previewDialogVisible = true;
+    this.fullScreen();
   }
 
   getHtml () {
     this.html = this.editorContext.editor.getHTML();
+  }
+
+  fullscreenListener () {
+    if (document.fullscreenEnabled) {
+      document.removeEventListener('fullscreenchange', this.fullscreenListener);
+      document.removeEventListener('keydown', this.zoomListener);
+      this.previewDialogVisible = false;
+    }
+  }
+
+  zoomListener (e: any) {
+    if (e.metaKey || e.ctrlKey) {
+      if (e.keyCode === 187) {
+        e.preventDefault();
+        this.zoom = this.zoom < 3 ? this.zoom + 0.5 : 3;
+      } else if (e.keyCode === 189) {
+        e.preventDefault();
+        this.zoom = this.zoom > 1 ? this.zoom - 0.5 : 1;
+      }
+    }
+  }
+
+  // 全屏
+  fullScreen () {
+    const element: any = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    }
+    setTimeout(() => {
+      document.addEventListener('fullscreenchange', this.fullscreenListener);
+      document.addEventListener('keydown', this.zoomListener);
+    }, 2000);
   }
 }
 </script>

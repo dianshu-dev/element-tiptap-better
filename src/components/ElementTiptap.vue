@@ -40,11 +40,13 @@
       'border-bottom-radius': !showFooter,
       }, editorContentClass]">
 
-      <div class="el-tiptap-editor__zoom" :style="{width: zoomWidth, height: zoomHeight, left: zoomLeft}">
+      <div
+        :class="{'el-tiptap-editor__zoom': true, 'el-tiptap-editor__auto': !!autoWidth}"
+        :style="{width: zoomWidth, height: zoomHeight, left: zoomLeft}">
         <editor-content
           ref="editorContent"
           class="el-tiptap-editor__content"
-          :style="{transform: `scale(${zoom/100})`}"
+          :style="{transform: `scale(${zoom/100})`, width: autoWidth ? '100%' : '794px'}"
           :editor="editor"
         />
       </div>
@@ -61,12 +63,14 @@
           'border-bottom-radius': showFooter,
         }, editorFooterClass]"
       >
-        <div class="el-tiptap-editor__characters">
+        <div class="el-tiptap-editor__status">
           <span v-if="selectWords.word">{{ selectWords.word }}/</span>
           <span v-if="totalWords">{{ totalWords.word }} {{ t('editor.words') }}</span>
+
+          <div class="auto-width-mode" @click="changeWidthMode">{{autoWidth ? '自适应宽度' : '标准宽度(A4)'}}</div>
         </div>
 
-        <div class="el-tiptap-editor__zoom-tool">
+        <div v-if="!autoWidth" class="el-tiptap-editor__zoom-tool">
           <button @click="contentZoom('minus')">
             <i class="el-icon-minus"></i>
           </button>
@@ -224,6 +228,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   zoomWidth: string = '794px';
   zoomHeight: string = '1123px';
   zoomLeft: string = 'unset';
+  autoWidth: boolean = !!localStorage.getItem('editorAutoWidth');
 
   @Provide() get et (): ElTiptap {
     return this;
@@ -372,6 +377,17 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
     this.zoomLeft = left > 20 ? left - 20 + 'px' : '0';
     this.zoomWidth = width + 'px';
     this.zoomHeight = height + 'px';
+  }
+
+  changeWidthMode () {
+    this.autoWidth = !this.autoWidth;
+    this.zoom = 100;
+    if (this.autoWidth) {
+      localStorage.setItem('editorAutoWidth', '1');
+    } else {
+      this.contentZoom('reset');
+      localStorage.removeItem('editorAutoWidth');
+    }
   }
 
   private generateExtensions (): Array<Extension> {

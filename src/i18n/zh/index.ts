@@ -199,9 +199,9 @@ export default {
         tooltip: '打印',
       },
       Preview: {
-        tooltip: '预览',
+        tooltip: '演示模式',
         dialog: {
-          title: '预览',
+          title: '演示模式',
         },
       },
       Search: {

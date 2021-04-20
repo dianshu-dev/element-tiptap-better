@@ -66,6 +66,7 @@ import 'vue-awesome/icons/regular/file-code';
 import 'vue-awesome/icons/arrow-left';
 import 'vue-awesome/icons/search';
 import 'vue-awesome/icons/stream';
+import 'vue-awesome/icons/tv';
 
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Tooltip } from 'element-ui';
