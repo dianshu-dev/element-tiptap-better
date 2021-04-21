@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block; vertical-align: middle;">
     <command-button
-      :command="togglePreviewDialogVisible"
+      :command="fullScreen"
       :enable-tooltip="et.tooltip"
       :tooltip="et.t('editor.extensions.Preview.tooltip')"
       :readonly="et.isCodeViewMode"
@@ -60,20 +60,17 @@ export default class PreviewCommandButton extends Vue {
     if (visible) this.getHtml();
   }
 
-  togglePreviewDialogVisible () {
-    this.previewDialogVisible = true;
-    this.fullScreen();
-  }
-
   getHtml () {
     this.html = this.editorContext.editor.getHTML();
   }
 
   fullscreenListener () {
-    if (document.fullscreenEnabled) {
+    if (!this.previewDialogVisible) {
+      this.previewDialogVisible = true;
+    } else {
+      this.previewDialogVisible = false;
       document.removeEventListener('fullscreenchange', this.fullscreenListener);
       document.removeEventListener('keydown', this.zoomListener);
-      this.previewDialogVisible = false;
     }
   }
 
@@ -91,6 +88,8 @@ export default class PreviewCommandButton extends Vue {
 
   // 全屏
   fullScreen () {
+    document.addEventListener('fullscreenchange', this.fullscreenListener);
+    document.addEventListener('keydown', this.zoomListener);
     const element: any = document.documentElement;
     if (element.requestFullscreen) {
       element.requestFullscreen();
@@ -101,10 +100,6 @@ export default class PreviewCommandButton extends Vue {
     } else if (element.webkitRequestFullscreen) {
       element.webkitRequestFullscreen();
     }
-    setTimeout(() => {
-      document.addEventListener('fullscreenchange', this.fullscreenListener);
-      document.addEventListener('keydown', this.zoomListener);
-    }, 2000);
   }
 }
 </script>
