@@ -66,6 +66,7 @@ import {
   DragItem,
   MenuSplit,
   Preview,
+  QuickInsert,
   Drop,
 } from 'element-tiptap';
 
@@ -159,6 +160,7 @@ export default {
         }),
         new TrailingNode(),
         new Preview(),
+        new QuickInsert(),
         new Drop(),
       ],
       content: `<h2>

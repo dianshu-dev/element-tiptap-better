@@ -663,12 +663,14 @@
 
     .tableWrapper {
       margin: 1em 0;
+      width: 100%;
+      overflow-x: auto;
     }
 
     table {
       border-collapse: collapse;
       table-layout: fixed;
-      width: 100%;
+      width: auto;
       margin: 0;
     }
 
@@ -676,7 +678,7 @@
     td {
       border: 2px solid $lighter-border-color;
       box-sizing: border-box;
-      min-width: 1em;
+      min-width: 2em;
       padding: 3px 5px;
       position: relative;
       vertical-align: top;

@@ -53,4 +53,5 @@ export { default as SelectAll } from './select_all';
 export { default as Collaboration } from './collaboration';
 export { default as Cursors } from './cursors';
 export { default as MenuSplit } from './menu_split';
+export { default as QuickInsert } from './quick_insert';
 export { default as Drop } from './drop';

@@ -42,4 +42,5 @@ export class Search {}
 export class MenuSplit {}
 export class Collaboration {}
 export class Cursors {}
+export class QuickInsert {}
 export class Drop {}

@@ -228,7 +228,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   zoomWidth: string = '794px';
   zoomHeight: string = '1123px';
   zoomLeft: string = 'unset';
-  autoWidth: boolean = !!localStorage.getItem('editorAutoWidth');
+  autoWidth: boolean = true;
 
   @Provide() get et (): ElTiptap {
     return this;
@@ -301,6 +301,10 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   }
 
   private mounted () {
+    const autoWidth = localStorage.getItem('editorAutoWidth');
+    if (autoWidth !== null && autoWidth === '0') {
+      this.autoWidth = false;
+    }
     const extensions = this.generateExtensions();
 
     const eventOptions = COMMON_EMIT_EVENTS.reduce((prev, event) => {
@@ -314,6 +318,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
       ...this.editorProperties,
       editable: !this.readonly,
       useBuiltInExtensions: false,
+      quickInsertVisible: false,
       extensions,
       ...eventOptions,
       content: this.content,
@@ -383,10 +388,10 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
     this.autoWidth = !this.autoWidth;
     this.zoom = 100;
     if (this.autoWidth) {
-      localStorage.setItem('editorAutoWidth', '1');
+      localStorage.removeItem('editorAutoWidth');
     } else {
       this.contentZoom('reset');
-      localStorage.removeItem('editorAutoWidth');
+      localStorage.setItem('editorAutoWidth', '0');
     }
   }
 

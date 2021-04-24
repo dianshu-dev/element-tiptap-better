@@ -99,6 +99,7 @@ declare module 'tiptap' {
     useBuiltInExtensions?: boolean;
     disableInputRules?: boolean;
     disablePasteRules?: boolean;
+    quickInsertVisible?: boolean;
     dropCursor?: {};
     parseOptions?: ParseOptions;
     injectCSS?: boolean;
