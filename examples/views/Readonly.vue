@@ -34,7 +34,7 @@ export default {
         new Doc(),
         new Text(),
         new Paragraph(),
-        new Heading({ level: 3 }),
+        new Heading({ level: 4 }),
         new Bold(),
         new Underline(),
         new Italic(),

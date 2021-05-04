@@ -26,4 +26,26 @@ body {
   color: #2c3e50;
   height: 100%;
 }
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  min-width: 10px;
+  min-height: 10px;
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid white;
+  border-radius: 6px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.24);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 </style>

@@ -8,7 +8,7 @@
       : editorContext.commands.paragraph()
     "
   >
-    <el-tooltip effect="dark" :content="et.t('editor.extensions.Heading.tooltip')" placement="top">
+    <el-tooltip effect="dark" :content="et.t('editor.extensions.Heading.tooltip')" :enterable="false" placement="top">
       <div class="heading_menu_btn">
         <span class="heading_name" :title="heading">{{heading}}</span>
         <i class="el-icon-caret-bottom" style="margin-left: 2px; color: #bbb"></i>

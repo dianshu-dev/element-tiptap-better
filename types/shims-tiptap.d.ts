@@ -100,6 +100,7 @@ declare module 'tiptap' {
     disableInputRules?: boolean;
     disablePasteRules?: boolean;
     quickInsertVisible?: boolean;
+    addLinkVisible?: boolean;
     dropCursor?: {};
     parseOptions?: ParseOptions;
     injectCSS?: boolean;
@@ -134,6 +135,7 @@ declare module 'tiptap' {
     keymaps: any[];
     marks: Mark[];
     nodes: Node[];
+    options: any;
     pasteRules: any[];
     plugins: Plugin[];
     schema: Schema;

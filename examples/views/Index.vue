@@ -173,7 +173,7 @@ export default {
   margin-bottom: 30px;
 
   &__wrapper {
-    width: 885px;
+    width: 1200px;
   }
 }
 

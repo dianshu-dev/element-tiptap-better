@@ -123,12 +123,12 @@ export default class Drop extends Extension {
               const width = view.dom.clientLeft + view.dom.clientWidth - 72;
               const clientX = event.clientX < width ? event.clientX + 72 : event.clientX - 72;
               const dom = getDomByCursor(clientX, event.clientY, view);
-              if (!dom) {
+              if (!dom || (dom.tagName === 'H1' && dom.classList.contains('doc-title'))) {
                 dragHandle.style.display = 'none';
-                return false;
+              } else {
+                dragHandle.style.display = 'flex';
+                dragHandle.style.top = dom.offsetTop + 'px';
               }
-              dragHandle.style.display = 'flex';
-              dragHandle.style.top = dom.offsetTop + 'px';
               return true;
             },
           },

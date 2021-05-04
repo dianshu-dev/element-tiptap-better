@@ -11,6 +11,7 @@
       :title="et.t('editor.extensions.Image.control.edit_image.title')"
       :visible.sync="editImageDialogVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="400px"
       custom-class="el-tiptap-edit-image-dialog"
       @open="syncImageAttrs"

@@ -14,6 +14,7 @@
 
 <script>
 import {
+  Title,
   Doc,
   Text,
   Paragraph,
@@ -44,10 +45,11 @@ export default {
   data () {
     return {
       extensions: [
-        new Doc(),
+        new Title(),
+        new Doc({ title: true }),
         new Text(),
         new Paragraph(),
-        new Heading({ level: 5 }),
+        new Heading({ level: 4 }),
         new Bold({ bubble: true }),
         new Underline({ bubble: true }),
         new Italic({ bubble: true }),

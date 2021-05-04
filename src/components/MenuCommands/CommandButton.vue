@@ -3,6 +3,7 @@
     :content="tooltip"
     :open-delay="350"
     :disabled="!enableTooltip || readonly"
+    :enterable="false"
     transition="el-zoom-in-bottom"
     effect="dark"
     placement="top"

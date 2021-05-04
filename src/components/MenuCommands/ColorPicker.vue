@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip effect="dark" :content="tooltip" placement="top">
+  <el-tooltip effect="dark" :content="tooltip" :enterable="false" placement="top">
     <font-color-picker v-model="color" :last-color="lastColor" @change="confirmColor"></font-color-picker>
   </el-tooltip>
 </template>

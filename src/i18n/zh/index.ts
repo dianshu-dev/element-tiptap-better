@@ -31,6 +31,7 @@ export default {
           tooltip: '添加链接',
           control: {
             title: '添加链接',
+            text: '内容',
             href: '链接',
             open_in_new_tab: '在新标签页中打开',
             confirm: '添加',
@@ -41,6 +42,7 @@ export default {
           tooltip: '编辑链接',
           control: {
             title: '编辑链接',
+            text: '内容',
             href: '链接',
             open_in_new_tab: '在新标签页中打开',
             confirm: '更新',

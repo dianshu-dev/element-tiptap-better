@@ -5,7 +5,7 @@
     style="vertical-align: middle;"
     @command="toggleFontSize">
 
-    <el-tooltip effect="dark" :content="et.t('editor.extensions.FontSize.tooltip')" placement="top">
+    <el-tooltip effect="dark" :content="et.t('editor.extensions.FontSize.tooltip')" :enterable="false" placement="top">
       <div class="font_size_menu_btn">
         <span style="font-size: 15px;font-weight: 500">{{activeFontSize}}</span>
         <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #bbb"></i>

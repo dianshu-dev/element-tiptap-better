@@ -31,6 +31,7 @@ export default {
           tooltip: 'Apply link',
           control: {
             title: 'Apply Link',
+            text: 'text',
             href: 'Href',
             open_in_new_tab: 'Open in new tab',
             confirm: 'Apply',
@@ -41,6 +42,7 @@ export default {
           tooltip: 'Edit link',
           control: {
             title: 'Edit Link',
+            text: 'text',
             href: 'Href',
             open_in_new_tab: 'Open in new tab',
             confirm: 'Update',

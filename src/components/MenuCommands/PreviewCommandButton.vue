@@ -9,15 +9,18 @@
     />
 
     <el-dialog
+      v-if="editor"
       :visible.sync="previewDialogVisible"
       :modal="false"
       :fullscreen="true"
+      custom-class="el-tiptap-preview-dialog"
       :show-close="false"
       :append-to-body="true"
+      :close-on-click-modal="false"
       :lock-scroll="true"
     >
       <div class="el-tiptap-editor__content el-tiptap-editor__preview">
-        <div v-html="html" class="ProseMirror" :style="{ zoom: zoom }"></div>
+        <editor-content :editor="editor" :style="{ zoom: zoom }"/>
       </div>
     </el-dialog>
   </div>
@@ -25,8 +28,8 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Inject, Vue } from 'vue-property-decorator';
-import { Dialog } from 'element-ui';
-import { MenuData } from 'tiptap';
+import { Dialog, Message } from 'element-ui';
+import { MenuData, Editor, EditorContent } from 'tiptap';
 import { PREVIEW_WINDOW_WIDTH } from '@/constants';
 import CommandButton from './CommandButton.vue';
 
@@ -34,6 +37,7 @@ import CommandButton from './CommandButton.vue';
   components: {
     [Dialog.name]: Dialog,
     CommandButton,
+    EditorContent,
   },
 })
 export default class PreviewCommandButton extends Vue {
@@ -51,17 +55,74 @@ export default class PreviewCommandButton extends Vue {
 
   @Inject() readonly et!: any;
 
-  html: string = '';
+  editor: any = null;
   previewDialogVisible: boolean = false;
   zoom: number = 1;
+  extensions: any[] = [
+    'title',
+    'doc',
+    'text',
+    'paragraph',
+    // text extension's
+    'bold',
+    'underline',
+    'italic',
+    'strike',
+    'code',
+    'font_type',
+    'font_size',
+    'text_color',
+    'text_highlight',
+    // paragraph extension's
+    'heading',
+    'list_item',
+    'bullet_list',
+    'ordered_list',
+    'todo_item',
+    'todo_list',
+    'text_align',
+    'line_height',
+    'indent',
+    'blockquote',
+    'code_block',
+    // rich and tools extension's
+    'link',
+    'image',
+    'table',
+    'table_header',
+    'table_cell',
+    'table_row',
+    'iframe',
+    'trailing_node',
+    'horizontal_rule',
+    'code_block_highlight',
+  ];
 
   @Watch('previewDialogVisible')
   onVisibleChange (visible: boolean) {
-    if (visible) this.getHtml();
+    if (visible) {
+      this.editor = new Editor({
+        editable: false,
+        useBuiltInExtensions: false,
+        extensions: this.getExtensions(),
+        content: this.getHtml(),
+      });
+    } else if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
+  }
+
+  getExtensions () {
+    const extensions: any = [];
+    this.editorContext.editor.extensions.extensions.forEach((item: any) => {
+      if (this.extensions.includes(item.name)) extensions.push(item);
+    });
+    return extensions;
   }
 
   getHtml () {
-    this.html = this.editorContext.editor.getHTML();
+    return this.editorContext.editor.getHTML();
   }
 
   fullscreenListener () {
@@ -78,12 +139,30 @@ export default class PreviewCommandButton extends Vue {
     if (e.metaKey || e.ctrlKey) {
       if (e.keyCode === 187) {
         e.preventDefault();
-        this.zoom = this.zoom < 3 ? this.zoom + 0.5 : 3;
+        this.zoom = this.zoom < 3 ? this.zoom + 0.25 : 3;
+        this.message();
       } else if (e.keyCode === 189) {
         e.preventDefault();
-        this.zoom = this.zoom > 1 ? this.zoom - 0.5 : 1;
+        this.zoom = this.zoom > 0.25 ? this.zoom - 0.25 : 0.25;
+        this.message();
+      } else if (e.keyCode === 48) {
+        e.preventDefault();
+        this.zoom = 1;
+        this.message();
       }
     }
+  }
+
+  message () {
+    let text = '';
+    if (this.zoom !== 1) {
+      text += `${this.zoom > 1 ? '放大' : '缩小'}到 ${this.zoom} 倍`;
+      text += this.zoom < 3 ? '' : ', 最大了哦';
+      text += this.zoom > 0.25 ? '' : ', 最小了哦';
+    } else {
+      text = '默认大小';
+    }
+    Message.success(text);
   }
 
   // 全屏
@@ -103,3 +182,14 @@ export default class PreviewCommandButton extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.el-tiptap-preview-dialog {
+  .el-dialog__header {
+    padding: 0;
+  }
+  .el-dialog__body {
+    padding: 0;
+  }
+}
+</style>

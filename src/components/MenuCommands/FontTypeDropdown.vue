@@ -6,7 +6,7 @@
     @command="toggleFontType"
   >
 
-    <el-tooltip effect="dark" :content="et.t('editor.extensions.FontType.tooltip')" placement="top">
+    <el-tooltip effect="dark" :content="et.t('editor.extensions.FontType.tooltip')" :enterable="false" placement="top">
       <div class="font_type_menu_btn">
         <span class="font_type_name" :title="activeFontType">
           {{activeFontType || this.et.t('editor.extensions.FontType.default')}}

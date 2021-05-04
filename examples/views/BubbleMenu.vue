@@ -42,7 +42,7 @@ export default {
         new Doc(),
         new Text(),
         new Paragraph(),
-        new Heading({ level: 5 }),
+        new Heading({ level: 4 }),
         new TextColor(),
         new Bold({ bubble: true }),
         new Underline({ bubble: true }),

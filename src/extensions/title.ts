@@ -10,8 +10,8 @@ export default class Title extends Node {
 
   get defaultOptions () {
     return {
-      placeholder: '',
-      class: '',
+      placeholder: '无标题',
+      class: 'doc-title',
     };
   }
 

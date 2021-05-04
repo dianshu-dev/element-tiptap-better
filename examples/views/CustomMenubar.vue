@@ -63,7 +63,7 @@ export default {
         new History(),
         new ListItem(),
         new OrderedList(),
-        new Heading({ level: 3 }),
+        new Heading({ level: 4 }),
         new Bold(),
         new Underline(),
         new Strike(),

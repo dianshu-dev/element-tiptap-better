@@ -5,7 +5,7 @@
     style="vertical-align: middle;"
     @command="toggleTextAlign">
 
-    <el-tooltip effect="dark" :content="et.t('editor.extensions.TextAlign.tooltip')" placement="top">
+    <el-tooltip effect="dark" :content="et.t('editor.extensions.TextAlign.tooltip')" :enterable="false" placement="top">
       <div class="text_align_menu_btn">
         <v-icon :name="`align-${activeTextAlign}`"/>
         <i class="el-icon-caret-bottom" style="margin-left: 3px; color: #bbb"></i>

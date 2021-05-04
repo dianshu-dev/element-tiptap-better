@@ -262,7 +262,7 @@ export default class ImageView extends Vue {
     const dy = (e.clientY - y) * (/t/.test(dir) ? -1 : 1);
 
     const width = clamp(w + dx, MIN_SIZE, this.maxSize.width);
-    const height = !e.shiftKey ? width / this.proportion : Math.max(h + dy, MIN_SIZE);
+    const height = !e.ctrlKey ? width / this.proportion : Math.max(h + dy, MIN_SIZE);
     this.updateAttrs({ width, height });
   }
 

@@ -6,7 +6,7 @@
     <el-tiptap
       :extensions="extensions"
       :content="content"
-      placeholder="Please input..."
+      placeholder="输入内容..."
       style="width: 100%; height: 600px"
       lang="zh"
       @onInit="onInit"
@@ -16,6 +16,7 @@
 
 <script>
 import {
+  Title,
   Doc,
   Text,
   Paragraph,
@@ -86,13 +87,14 @@ export default {
         color: '#666666',
       },
       extensions: [
-        new Doc(),
+        new Title(),
+        new Doc({ title: true }),
         new Text(),
         new Paragraph(),
         new History(),
         new FormatClear(),
         new MenuSplit(),
-        new Heading({ level: 6 }),
+        new Heading({ level: 4 }),
         new FontType(),
         new FontSize(),
         new MenuSplit(),

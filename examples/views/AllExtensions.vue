@@ -12,6 +12,7 @@
 
     <el-tiptap
       :extensions="richAndToolsExtensions"
+      placeholder="请输入内容"
       :content="content"
       style="height: 600px"
       lang="zh"
@@ -22,6 +23,7 @@
 
 <script>
 import {
+  Title,
   Doc,
   Text,
   Paragraph,
@@ -93,10 +95,11 @@ export default {
         new History(),
       ],
       paragraphExtensions: [
-        new Doc(),
+        new Title(),
+        new Doc({ title: false }),
         new Text(),
         new Paragraph(),
-        new Heading({ level: 5 }),
+        new Heading({ level: 4 }),
         new ListItem(),
         new BulletList(),
         new OrderedList(),
@@ -110,13 +113,14 @@ export default {
         new History(),
       ],
       richAndToolsExtensions: [
-        new Doc(),
+        // new Title(),
+        new Doc({ title: false }),
         new Text(),
         new Paragraph(),
         new History(),
         new FormatClear(),
         new MenuSplit(),
-        new Heading({ level: 6 }),
+        new Heading({ level: 4 }),
         new FontType(),
         new FontSize(),
         new MenuSplit(),
@@ -163,21 +167,22 @@ export default {
         new QuickInsert(),
         new Drop(),
       ],
-      content: `<h2>
-        Drag Handle
-      </h2>
-      <p>
-        Add <code>data-drag-handle</code> to a DOM element within your node view to define your custom drag handle.
-      </p>
-      <div data-type="drag_item">
-        Drag me!
-      </div>
-      <div data-type="drag_item">
-        Try it!
-      </div>
-      <div data-type="drag_item">
-        It works!
-      </div>`,
+      content: '',
+      // content: `<h2>
+      //   Drag Handle
+      // </h2>
+      // <p>
+      //   Add <code>data-drag-handle</code> to a DOM element within your node view to define your custom drag handle.
+      // </p>
+      // <div data-type="drag_item">
+      //   Drag me!
+      // </div>
+      // <div data-type="drag_item">
+      //   Try it!
+      // </div>
+      // <div data-type="drag_item">
+      //   It works!
+      // </div>`,
       editor: null,
     };
   },
@@ -185,7 +190,13 @@ export default {
     onInit ({ editor }) {
       this.editor = editor;
       console.log(this.editor);
-    }
+    },
+
+    onUpdate (output, options) {
+      const { getJSON } = options;
+      const json = getJSON();
+      console.log(JSON.stringify(json, null, 2), 1111111);
+    },
   },
 };
 </script>

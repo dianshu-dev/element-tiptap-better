@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip effect="dark" :content="tooltip" placement="top">
+  <el-tooltip effect="dark" :content="tooltip" :enterable="false" placement="top">
     <div class="el-tiptap-color-popover">
       <div class="color_btn_wrap">
         <div class="color_btn" @mousedown.prevent @click="confirmColor(lastColor)">

@@ -8,11 +8,6 @@
       'el-tiptap-editor--fullscreen': isFullscreen,
     }, editorClass]"
   >
-    <menu-bubble
-      :editor="editor"
-      :menuBubbleOptions="menuBubbleOptions"
-      :class="editorBubbleMenuClass"
-    />
 
     <menu-bar
       v-if="showMenubar"
@@ -40,13 +35,21 @@
       'border-bottom-radius': !showFooter,
       }, editorContentClass]">
 
+      <quick-insert-view v-if="quickInsertVisible" :editor="editor"></quick-insert-view>
+
+      <menu-bubble
+        :editor="editor"
+        :menuBubbleOptions="menuBubbleOptions"
+        :class="editorBubbleMenuClass"
+      />
+
       <div
-        :class="{'el-tiptap-editor__zoom': true, 'el-tiptap-editor__auto': !!autoWidth}"
+        :class="{'el-tiptap-editor__zoom': true, 'el-tiptap-editor__auto': !widthMode}"
         :style="{width: zoomWidth, height: zoomHeight, left: zoomLeft}">
         <editor-content
           ref="editorContent"
           class="el-tiptap-editor__content"
-          :style="{transform: `scale(${zoom/100})`, width: autoWidth ? '100%' : '794px'}"
+          :style="{transform: `scale(${zoom/100})`, width: !widthMode ? '100%' : widthMode === 1 ? '794px' : '1123px'}"
           :editor="editor"
         />
       </div>
@@ -67,10 +70,10 @@
           <span v-if="selectWords.word">{{ selectWords.word }}/</span>
           <span v-if="totalWords">{{ totalWords.word }} {{ t('editor.words') }}</span>
 
-          <div class="auto-width-mode" @click="changeWidthMode">{{autoWidth ? '自适应宽度' : '标准宽度(A4)'}}</div>
+          <div class="width-mode" @click="changeWidthMode">{{widthModeOptions[widthMode]}}</div>
         </div>
 
-        <div v-if="!autoWidth" class="el-tiptap-editor__zoom-tool">
+        <div v-if="widthMode" class="el-tiptap-editor__zoom-tool">
           <button @click="contentZoom('minus')">
             <i class="el-icon-minus"></i>
           </button>
@@ -101,6 +104,7 @@ import MenuBar from './MenuBar/index.vue';
 import MenuBubble from './MenuBubble/index.vue';
 // @ts-ignore
 import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
+import QuickInsertView from '@/components/ExtensionViews/QuickInsertView.vue';
 
 const COMMON_EMIT_EVENTS: EVENTS[] = [
   EVENTS.TRANSACTION,
@@ -112,6 +116,7 @@ const COMMON_EMIT_EVENTS: EVENTS[] = [
 
 @Component({
   components: {
+    QuickInsertView,
     MenuBar,
     MenuBubble,
     EditorContent,
@@ -228,11 +233,17 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   zoomWidth: string = '794px';
   zoomHeight: string = '1123px';
   zoomLeft: string = 'unset';
-  autoWidth: boolean = true;
+  widthMode: number = 0;
+  widthModeOptions: object = { 0: '自适应宽度', 1: '标准宽度(A4)', 2: '超宽页面(A3)' };
 
   @Provide() get et (): ElTiptap {
     return this;
   };
+
+  get quickInsertVisible (): any {
+    if (!this.editor || !this.editor.options) return false;
+    return this.editor.options.quickInsertVisible;
+  }
 
   get selectWords (): any {
     const result = { word: 0, paragraph: 0, character: 0, all: 0 };
@@ -301,9 +312,9 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   }
 
   private mounted () {
-    const autoWidth = localStorage.getItem('editorAutoWidth');
-    if (autoWidth !== null && autoWidth === '0') {
-      this.autoWidth = false;
+    const widthMode = localStorage.getItem('editorWidthMode');
+    if (widthMode !== null) {
+      this.widthMode = Number(widthMode);
     }
     const extensions = this.generateExtensions();
 
@@ -318,10 +329,11 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
       ...this.editorProperties,
       editable: !this.readonly,
       useBuiltInExtensions: false,
-      quickInsertVisible: false,
       extensions,
       ...eventOptions,
       content: this.content,
+      quickInsertVisible: false,
+      addLinkVisible: false,
       onUpdate: this.onUpdate.bind(this),
       onPaste: this.onPaste.bind(this),
       onDrop: this.onDrop.bind(this),
@@ -376,7 +388,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   private setContentDomSize (zoom: number) {
     if (!this.contentWrapDom || !this.contentDom) return;
     const dom = this.contentDom.$el;
-    const width = 794 * (zoom / 100);
+    const width = this.widthMode === 1 ? 794 * (zoom / 100) : 1123 * (zoom / 100);
     const height = dom.offsetHeight * (zoom / 100);
     const left = (this.contentWrapDom.offsetWidth - 14 - width) / 2;
     this.zoomLeft = left > 20 ? left - 20 + 'px' : '0';
@@ -385,13 +397,13 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   }
 
   changeWidthMode () {
-    this.autoWidth = !this.autoWidth;
+    this.widthMode = this.widthMode >= 2 ? 0 : this.widthMode + 1;
     this.zoom = 100;
-    if (this.autoWidth) {
-      localStorage.removeItem('editorAutoWidth');
+    if (!this.widthMode) {
+      localStorage.removeItem('editorWidthMode');
     } else {
       this.contentZoom('reset');
-      localStorage.setItem('editorAutoWidth', '0');
+      localStorage.setItem('editorWidthMode', String(this.widthMode));
     }
   }
 
