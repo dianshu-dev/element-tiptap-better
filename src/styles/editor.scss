@@ -347,8 +347,13 @@
     }
 
     p {
-      margin-bottom: 8px;
+      margin-top: 8px;
+      margin-bottom: 0;
       outline: none;
+
+      &:first-child {
+        margin-top: 0;
+      }
     }
 
     h1,
@@ -673,10 +678,11 @@
       margin: 0;
 
       p {
-        margin-bottom: 6px;
+        margin-top: 6px;
+        margin-bottom: 0;
 
-        &:last-child {
-          margin-bottom: 0;
+        &:first-child {
+          margin-top: 0;
         }
       }
     }

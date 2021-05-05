@@ -4,7 +4,7 @@ import { CommandFunction } from 'tiptap-commands';
 import { MenuBtnView } from '@/../types';
 import applyMark from '@/utils/apply_mark';
 import { COLOR_SET, isHexColor } from '@/utils/color';
-import ColorPicker from '@/components/MenuCommands/ColorPicker.vue';
+import FontColorPicker from '@/components/MenuCommands/FontColorPicker.vue';
 
 export default class TextColor extends Mark implements MenuBtnView {
   get name () {
@@ -66,7 +66,7 @@ export default class TextColor extends Mark implements MenuBtnView {
 
   menuBtnView ({ commands, getMarkAttrs, editor, t }: MenuData) {
     return {
-      component: ColorPicker,
+      component: FontColorPicker,
       componentProps: {
         colorSet: this.options.colors,
         selectedColor: getMarkAttrs('text_color').color,

@@ -1,21 +1,26 @@
 <template>
   <el-tooltip effect="dark" :content="tooltip" :enterable="false" placement="top">
-    <font-color-picker v-model="color" :last-color="lastColor" @change="confirmColor"></font-color-picker>
+    <color-picker v-model="color" :last-color="lastColor" @change="confirmColor">
+      <div>
+        <div class="color_icon">A</div>
+        <div class="color_block" :style="{background: lastColor || '#000000'}"></div>
+      </div>
+    </color-picker>
   </el-tooltip>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Emit, Vue, Inject } from 'vue-property-decorator';
 import { Tooltip } from 'element-ui';
-import FontColorPicker from './FontColorPicker/index.vue';
+import ColorPicker from './ColorPicker/index.vue';
 
 @Component({
   components: {
     [Tooltip.name]: Tooltip,
-    FontColorPicker,
+    ColorPicker,
   },
 })
-export default class ColorPicker extends Vue {
+export default class FontColorPicker extends Vue {
   @Prop({
     type: Array,
     default: () => [],

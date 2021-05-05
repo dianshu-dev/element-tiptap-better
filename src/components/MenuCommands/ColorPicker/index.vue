@@ -2,16 +2,13 @@
   <div class="el-tiptap-color-picker">
     <div class="color_btn_wrap">
       <div class="color_btn" @mousedown.prevent @click="_change(lastColor)">
-        <div>
-          <div class="color_icon">A</div>
-          <div class="color_block" :style="{background: lastColor || '#000000'}"></div>
-        </div>
+        <slot></slot>
       </div>
 
       <el-popover
         v-model="showPanel"
+        :trigger="trigger"
         placement="bottom"
-        trigger="click"
         popper-class="el-tiptap-popper">
         <div>
           <div class="x-color-picker__clear" @click.stop="_change('')">清除颜色</div>
@@ -54,6 +51,10 @@ export default {
     lastColor: {
       type: String,
       default: '',
+    },
+    trigger: {
+      type: String,
+      default: 'click',
     },
   },
   data () {

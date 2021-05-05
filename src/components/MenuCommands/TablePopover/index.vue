@@ -168,8 +168,11 @@ export default class TablePopover extends Vue {
       colsCount: col,
       withHeaderRow: true,
     });
-
     this.hidePopover();
+
+    setTimeout(() => {
+      this.editorContext.editor.view.focus();
+    }, 500);
   }
 };
 </script>

@@ -151,6 +151,9 @@ export default {
       TextHighlight: {
         tooltip: '文本高亮',
       },
+      FillColor: {
+        tooltip: '填充颜色',
+      },
       LineHeight: {
         tooltip: '行距',
       },

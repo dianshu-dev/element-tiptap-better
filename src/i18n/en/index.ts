@@ -151,6 +151,9 @@ export default {
       TextHighlight: {
         tooltip: 'Text highlight',
       },
+      FillColor: {
+        tooltip: 'Fill color',
+      },
       LineHeight: {
         tooltip: 'Line height',
       },
