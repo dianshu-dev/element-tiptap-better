@@ -251,17 +251,16 @@
     width: 794px;
     min-height: 1123px;
     box-shadow: 0 0 2px $border-color;
-    color: $black-color;
+    color: #1f2329;
     flex-grow: 1;
     overflow: visible;
     background-color: $white-color;
     box-sizing: border-box;
-    font-size: 11pt;
-    font-family: sans-serif;
+    font-size: 12pt;
+    font-family: 'Chinese Quote', -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, Segoe UI, Roboto, PingFang SC, Microsoft Yahei, Hiragino Sans GB, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     text-align: left;
     transform-origin: 0 0;
-    //line-height: 1.4;
-    //transition: transform 0.3s ease 0s;
+    line-height: 1.5;
 
     >div:not(:first-child):last-child {
       height: 2px !important;
@@ -348,8 +347,7 @@
     }
 
     p {
-      margin-bottom: 2px;
-      margin-top: 2px;
+      margin-bottom: 8px;
       outline: none;
     }
 
@@ -675,7 +673,11 @@
       margin: 0;
 
       p {
-        margin: 0;
+        margin-bottom: 6px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
 
@@ -695,7 +697,7 @@
 
     th {
       font-weight: 500;
-      text-align: left;
+      background: #f5f6f7;
     }
 
     .column-resize-handle {
@@ -746,7 +748,7 @@
   }
 
   &__placeholder {
-    &.el-tiptap-editor--empty:first-child::before {
+    &.el-tiptap-editor--empty::before {
       color: $placeholder-text-color;
       content: attr(data-empty-text);
       float: left;
@@ -755,15 +757,12 @@
     }
   }
 
-  &__with-title-placeholder {
-    &:nth-child(1)::before,
-    &:nth-child(2)::before {
-      color: $placeholder-text-color;
-      content: attr(data-empty-text);
-      float: left;
-      height: 0;
-      pointer-events: none;
-    }
+  &__with-title-placeholder::before {
+    color: $placeholder-text-color;
+    content: attr(data-empty-text);
+    float: left;
+    height: 0;
+    pointer-events: none;
   }
 
   &__status {

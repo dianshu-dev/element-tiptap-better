@@ -26,7 +26,7 @@ export const DEFAULT_FONT_SIZES = [
   '72',
 ];
 
-export const DEFAULT_FONT_SIZE = '11';
+export const DEFAULT_FONT_SIZE = '12';
 
 const SIZE_PATTERN = /([\d.]+)(px|pt)/i;
 

@@ -467,7 +467,8 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
       return new Placeholder({
         emptyEditorClass: 'el-tiptap-editor--empty',
         emptyNodeClass: 'el-tiptap-editor__with-title-placeholder',
-        showOnlyCurrent: false,
+        showOnlyWhenEditable: true,
+        showOnlyCurrent: true,
         // @ts-ignore
         emptyNodeText: (node: ProsemirrorNode) => {
           if (node.type.name === 'title') {
@@ -481,6 +482,8 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
       emptyEditorClass: 'el-tiptap-editor--empty',
       emptyNodeClass: 'el-tiptap-editor__placeholder',
       emptyNodeText: this.placeholder,
+      showOnlyWhenEditable: true,
+      showOnlyCurrent: true,
     });
   }
 };

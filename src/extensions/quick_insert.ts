@@ -8,6 +8,7 @@ export default class QuickInsert extends Extension {
 
   get defaultOptions () {
     return {
+      trigger: '',
       currentIndex: 0,
     };
   }
@@ -30,7 +31,11 @@ export default class QuickInsert extends Extension {
               if (dom.tagName === 'H1' && dom.classList.contains('doc-title')) {
                 return false;
               }
-              this.editor.options.quickInsertVisible = event.data === '/';
+              if (this.options.trigger) {
+                this.editor.options.quickInsertVisible = event.data === this.options.trigger;
+                return false;
+              }
+              this.editor.options.quickInsertVisible = event.data === '/' || event.data === '、' || event.data === '=' || event.data === '+';
               return false;
             },
           },

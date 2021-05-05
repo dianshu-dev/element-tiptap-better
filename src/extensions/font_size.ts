@@ -53,7 +53,6 @@ export default class FontSize extends Mark implements MenuBtnView {
 
   commands ({ type }: { type: MarkType }) {
     return (fontSize: string): CommandFunction => (state, dispatch) => {
-      console.log(fontSize, 889999);
       let { tr } = state;
       tr = setFontSize(
         state.tr.setSelection(state.selection),
