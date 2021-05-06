@@ -113,8 +113,8 @@ export default {
         new History(),
       ],
       richAndToolsExtensions: [
-        new Title(),
-        new Doc({ title: true }),
+        // new Title(),
+        new Doc({ title: false }),
         new Text(),
         new Paragraph(),
         new History(),

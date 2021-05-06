@@ -1,6 +1,7 @@
 <template>
   <div
     ref="quickInsert"
+    v-clickoutside="close"
     class="quick-insert-wrap"
     :style="{left: left + 'px', top: top + 'px', height: height + 'px'}">
 
@@ -28,6 +29,7 @@ import 'vue-awesome/icons/list-ol';
 import 'vue-awesome/icons/tasks';
 import 'vue-awesome/icons/minus';
 import 'vue-awesome/icons/table';
+import Clickoutside from 'element-ui/src/utils/clickoutside';
 import { QUICK_INSERT_LIST, normaliseNestedLayout } from '@/utils/quick_insert';
 import { safeInsert } from 'prosemirror-utils';
 
@@ -38,6 +40,7 @@ export default {
       default: null,
     },
   },
+  directives: { Clickoutside },
   components: {
     'v-icon': Icon,
   },
@@ -128,6 +131,11 @@ export default {
         this.$refs.quickInsert.scrollTop = this.current * 44;
         e.preventDefault();
       }
+    },
+
+    close () {
+      if (!this.editor || !this.editor.options) return false;
+      this.editor.options.quickInsertVisible = false;
     }
   }
 };

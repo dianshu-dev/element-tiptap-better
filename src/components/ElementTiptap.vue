@@ -45,7 +45,7 @@
 
       <div
         :class="{'el-tiptap-editor__zoom': true, 'el-tiptap-editor__auto': !widthMode}"
-        :style="{width: zoomWidth, height: zoomHeight, left: zoomLeft}">
+        :style="{width: zoomWidth, minHeight: zoomHeight, left: zoomLeft}">
         <editor-content
           ref="editorContent"
           class="el-tiptap-editor__content"
