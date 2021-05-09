@@ -5,6 +5,7 @@
     :style="elTiptapEditorStyle"
     :class="[{
       'el-tiptap-editor': true,
+      'el-tiptap-editor--mobile': isMobile,
       'el-tiptap-editor--fullscreen': isFullscreen,
     }, editorClass]"
   >
@@ -31,6 +32,7 @@
       ref="editorContentWrap"
       :class="[{
       'el-tiptap-editor__zoom-wrap': true,
+      'el-tiptap-editor__auto': !widthMode,
       'border-top-radius': !showMenubar,
       'border-bottom-radius': !showFooter,
       }, editorContentClass]">
@@ -44,7 +46,7 @@
       />
 
       <div
-        :class="{'el-tiptap-editor__zoom': true, 'el-tiptap-editor__auto': !widthMode}"
+        :class="{'el-tiptap-editor__zoom': true}"
         :style="{width: zoomWidth, minHeight: zoomHeight, left: zoomLeft}">
         <editor-content
           ref="editorContent"
@@ -60,7 +62,7 @@
       :editor="editor"
     >
       <div
-        v-if="showFooter"
+        v-if="!isMobile && showFooter"
         :class="[{
           'el-tiptap-editor__footer': true,
           'border-bottom-radius': showFooter,
@@ -233,6 +235,8 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
   zoomWidth: string = '794px';
   zoomHeight: string = '1123px';
   zoomLeft: string = 'unset';
+
+  isMobile: boolean = !!navigator.userAgent.match(/iPhone|Android|Mobile/);
   widthMode: number = 0;
   widthModeOptions: object = { 0: '自适应宽度', 1: '标准宽度(A4)', 2: '超宽页面(A3)' };
 
@@ -313,7 +317,7 @@ export default class ElTiptap extends Mixins(EditorStylesMixin) {
 
   private mounted () {
     const widthMode = localStorage.getItem('editorWidthMode');
-    if (widthMode !== null) {
+    if (!this.isMobile && widthMode !== null) {
       this.widthMode = Number(widthMode);
     }
     const extensions = this.generateExtensions();
