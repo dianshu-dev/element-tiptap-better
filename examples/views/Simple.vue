@@ -56,7 +56,11 @@ export default {
         new Strike({ bubble: true }),
         new Code(),
         new Link({ bubble: true }),
-        new Image(),
+        new Image({
+          uploadRequest: (file) => {
+            return this.uploadImage(file);
+          }
+        }),
         new Blockquote(),
         new TextAlign(),
         new ListItem(),
@@ -81,6 +85,31 @@ export default {
     },
     onDrop (view, event, slice, moved) {
       console.log(view, event, slice, moved, 'onDrop-------------------');
+    },
+
+    async uploadImage (file) {
+      const data = new FormData();
+      data.append('file', file);
+      data.append('fname', file.name);
+
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        request.open('POST', 'https://jsonplaceholder.typicode.com/posts/');
+        request.onload = function (e) {
+          if (!e.target.response) {
+            this.$message.error('上传失败!');
+            reject(new Error('上传失败!'));
+          }
+          const res = JSON.parse(e.target.response);
+          if (!res.key) {
+            this.$message.error('上传失败!');
+            reject(new Error('上传失败!'));
+          }
+          console.log(res, 123456);
+          resolve('');
+        };
+        request.send(data);
+      });
     },
   }
 };

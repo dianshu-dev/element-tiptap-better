@@ -51,7 +51,7 @@
         <editor-content
           ref="editorContent"
           class="el-tiptap-editor__content"
-          :style="{transform: `scale(${zoom/100})`, width: !widthMode ? '100%' : widthMode === 1 ? '794px' : '1123px'}"
+          :style="{zoom: `${zoom/100}`, width: !widthMode ? '100%' : widthMode === 1 ? '794px' : '1123px'}"
           :editor="editor"
         />
       </div>
@@ -75,7 +75,7 @@
           <div class="width-mode" @click="changeWidthMode">{{widthModeOptions[widthMode]}}</div>
         </div>
 
-        <div v-if="widthMode" class="el-tiptap-editor__zoom-tool">
+        <div class="el-tiptap-editor__zoom-tool">
           <button @click="contentZoom('minus')">
             <i class="el-icon-minus"></i>
           </button>

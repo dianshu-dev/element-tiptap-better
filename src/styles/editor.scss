@@ -386,10 +386,10 @@
       margin-top: 8px;
       margin-bottom: 0;
       outline: none;
+    }
 
-      &:first-child {
-        margin-top: 0;
-      }
+    >p:first-child {
+      margin-top: 0;
     }
 
     h1,
@@ -424,7 +424,6 @@
     }
 
     li > p {
-      margin: 0;
 
       &:first-child::before {
         content: counter(el-tiptap-counter) '.';
@@ -716,10 +715,6 @@
       p {
         margin-top: 6px;
         margin-bottom: 0;
-
-        &:first-child {
-          margin-top: 0;
-        }
       }
     }
 
@@ -732,6 +727,10 @@
       position: relative;
       vertical-align: top;
 
+      >p:first-child {
+        margin-top: 0;
+      }
+
       &.selectedCell {
         background-color: $extra-light-primary-color;
       }
@@ -740,6 +739,10 @@
     th {
       font-weight: 500;
       background: #f5f6f7;
+
+      >p:first-child {
+        margin-top: 0;
+      }
     }
 
     .column-resize-handle {
